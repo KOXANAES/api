@@ -1,0 +1,37 @@
+.table_cardProfile {
+  display: grid;
+  grid-template-areas:
+    "header header violations"
+    "creation owner violations"
+    "info owner violations"
+    "info owner addForm";
+  grid-gap: 20px;
+  grid-auto-flow: row dense;
+  font-size: 14px;
+  text-align: start;
+}
+.table_cardProfile_header { grid-area: header; text-align: center; }
+.table_cardProfile_creation { grid-area: creation; }
+.table_cardProfile_info { grid-area: info; }
+.table_cardProfile_owner { grid-area: owner; }
+.table_cardProfile_violations { grid-area: violations; color: red; }
+.table_cardProfile_addForm { grid-area: addForm; }
+.table_profile_list { list-style-type: none; }
+
+.table_cardProfile_form_inner { 
+  display: flex;
+  justify-content: space-between;
+}
+
+#residents_form {
+  display: flex;
+  flex-direction: column;
+}
+
+#residents_list { 
+  list-style-type: none;
+  color: green;
+}
+#violations_list {
+  list-style-type: none;
+}
