@@ -16,7 +16,7 @@ const Table: FC = () => {
   const [homes, setHomes] = useState<IInspectionCard[]>([])
   const [home, setHome] = useState<IInspectionCard>({} as IInspectionCard)
 
-  const [addModalActive, setAddModalActive] = useState<boolean>(true)
+  const [addModalActive, setAddModalActive] = useState<boolean>(false)
   const [fillModalActive, setFillModalActive] = useState<boolean>(false)
   const [profileModalActive, setProfileModalActive] = useState<boolean>(false)
 
@@ -58,6 +58,37 @@ const Table: FC = () => {
     }
   }
 
+
+
+
+
+
+
+  // pagination
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const itemsPerPage = 10
+
+  const totalPages = Math.ceil(homes.length / itemsPerPage)
+
+
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = homes.slice(indexOfFirstItem, indexOfLastItem)
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+
+
   return( 
     <>
       <main>
@@ -81,7 +112,7 @@ const Table: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {homes.map(homes =>
+            {currentItems.map(homes =>
               <tr className='main_table_cards' key={homes.id}>  
                 <td onClick={() => handleProfile(homes)}>{homes?.adress?.city}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.adress?.street}</td>
@@ -98,6 +129,11 @@ const Table: FC = () => {
             )}
           </tbody>
         </table>
+        <div className="pagination">
+          <button onClick={handlePrevPage} disabled={currentPage === 1}>Назад</button>
+          <span>Страница {currentPage} из {totalPages}</span>
+          <button onClick={handleNextPage} disabled={currentPage === totalPages}>Вперед</button>
+        </div>
         <AddCardModal active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/>
         <ProfileCardModal active={profileModalActive} setActive={setProfileModalActive} setHomes={setHomes} home={home}/>
         <FillCardModal active={fillModalActive} setActive={setFillModalActive} setHomes={setHomes}  home={home}/>

@@ -64,13 +64,14 @@ class CardService {
   }
 
   async destroy(id) { 
+    console.log(id)
     const iscard = await Card.findOne({where:{id:id}})
     if (!iscard) { throw new Error ('Карточка по заданному номеру не была найдена!')}
     const card = await Card.destroy({where:{id:id}})
     await Adress.destroy({where:{id:id}})
     await Char.destroy({where:{id:id}})
     await Residents.destroy({where:{id:id}})
-    await CardViol.destroy({where:{id:id}})
+    await CardViol.destroy({where:{cardId:id}})
     console.log(card)                                       // в будущем переписать с использованием транзакций, пакетного удаления, проверки связных записей
     return card
   }
