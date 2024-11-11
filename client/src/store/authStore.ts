@@ -99,4 +99,13 @@ export default class authStore {
       throw e
     }
   }
+
+  async updateNickname(nickname:string) { 
+    try {   
+      const response = await AuthService.updateNickname(nickname)
+    } catch(e) { 
+      throw e
+    }
+  }
+
 }

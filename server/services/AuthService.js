@@ -98,7 +98,11 @@ class AuthService {
     return `Ссылка для активации аккаунта была отправлена на почту ${email}`
 }
 
-  
+  async changeNickname(nickname) { 
+    const user = await User.findOne({where:{email:email}})
+    console.log(user)
+    return 1
+  }
 
   async getUsers() { 
     const users = User.findAll()

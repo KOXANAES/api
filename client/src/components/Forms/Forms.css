@@ -1,14 +1,14 @@
 .forms { 
   font-family: 'Montserrat';
-  text-shadow: none;
   display: flex;
   flex-direction: column;
   font-size: 13px;
+  max-width: 500px;
 }
 .forms_input { 
   margin: 10px 0px;
   padding: 15px;
-  width: 250px;
+  width: inherit;
   height: 50px;
   font-family: "Montserrat", sans-serif;
   background-color: transparent;
@@ -26,42 +26,9 @@
 .forms_input:-webkit-autofill {
   box-shadow: 0 0 0 1000px white inset;
 }
-.forms_down { 
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+.select__form { 
+  padding: 15px 5px 0px 5px;
+  text-align: center;
 }
-.forms_suggest { 
-  font-size: 12px;
-}
-#forms_login_btn { 
-  background:rgb(242,114,28);
-  box-shadow: none;
-  padding: 5px 10px;
-  color: white;
-  font-family: 'Montserrat';
-}
-#forms_reg_btn { 
-  background:rgb(242,114,28);
-  box-shadow: none;
-  color: white;
-  font-family: 'Montserrat';
-  margin: 5px 0px;
-  padding: 5px 0px;
-}
-.add_forms { 
-  margin: 0;
-}
-#change_label { 
-  text-align: left;
-}
-#change_selection option:first-of-type {
-  color: white;
-}
-#change_selection option {
-  color: black;
-}
-.error_message {
-  color: red;
-}
+

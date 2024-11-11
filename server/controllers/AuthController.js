@@ -88,6 +88,16 @@ class AuthController {
   }
   }
 
+  async updateNickname(req,res,next) { 
+    try { 
+      const {email,password,nickname} = req.body
+      const user = await authService.updateNickname(nickname)
+      return res.json(user)
+    } catch(e) { 
+      next(e)
+    }
+  }
+
 }
 
 module.exports = new AuthController()

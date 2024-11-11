@@ -16,7 +16,7 @@ const Table: FC = () => {
   const [homes, setHomes] = useState<IInspectionCard[]>([])
   const [home, setHome] = useState<IInspectionCard>({} as IInspectionCard)
 
-  const [addModalActive, setAddModalActive] = useState<boolean>(false)
+  const [addModalActive, setAddModalActive] = useState<boolean>(true)
   const [fillModalActive, setFillModalActive] = useState<boolean>(false)
   const [profileModalActive, setProfileModalActive] = useState<boolean>(false)
 

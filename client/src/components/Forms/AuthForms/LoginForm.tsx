@@ -6,12 +6,14 @@ import '../Forms.css'
 
 interface ModalProps { 
   setActive: (active: boolean) => void;
+  changeForm: boolean
+  handleChangeForm: (active: boolean) => void;
 }
 
 import { useNavigate } from "react-router-dom";
 import { TABLE_ROUTE } from "../../../router/Consts";
 
-const LoginForm: FC<ModalProps> = ({setActive}) => { 
+const LoginForm: FC<ModalProps> = ({setActive, changeForm, handleChangeForm}) => { 
 
   const {authStore} = useContext(Context)
 
@@ -36,7 +38,7 @@ const LoginForm: FC<ModalProps> = ({setActive}) => {
 
   return( 
     <div className='forms'>
-      <label>E-mail</label>
+      <h2>Авторизация</h2>
       <input 
         className="forms_input"
         onChange={e => setEmail(e.target.value)}
@@ -44,7 +46,6 @@ const LoginForm: FC<ModalProps> = ({setActive}) => {
         type='text' 
         placeholder='Email'
       />
-      <label>Пароль</label>
       <input 
         className="forms_input"
         onChange={e => setPassword(e.target.value)}
@@ -53,10 +54,8 @@ const LoginForm: FC<ModalProps> = ({setActive}) => {
         placeholder='Пароль'
       />
       {errorMessage ? <p className='error_message'>{errorMessage}</p> : ''}
-      <div className='forms_down'>
-        <p className='forms_suggest'>Нет аккаунта? Зарегистрируйся!</p>
-        <button id='forms_login_btn' onClick = {handleLogin}>Войти!</button>
-      </div>
+      <button className='orange-btn' onClick = {handleLogin}>Войти!</button>
+      <p className='select__form'>Если у вас нет аккаунта, вы можете <button className='change-btn' onClick={() => handleChangeForm(changeForm)}>перейти к окну регистрации</button></p>
     </div>
   )
 }

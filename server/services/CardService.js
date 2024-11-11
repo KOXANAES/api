@@ -1,5 +1,5 @@
 const ApiError = require('../exceptions/ApiError')
-const {Adress, Card, Char, Residents, Violations} = require('../models/models')
+const {Adress, Card, Char, Residents, Violations, CardViol} = require('../models/models')
 const { Op } = require('sequelize');
 const sequelize = require('../models/sequelize');
 
@@ -67,7 +67,11 @@ class CardService {
     const iscard = await Card.findOne({where:{id:id}})
     if (!iscard) { throw new Error ('Карточка по заданному номеру не была найдена!')}
     const card = await Card.destroy({where:{id:id}})
-    console.log(card)
+    await Adress.destroy({where:{id:id}})
+    await Char.destroy({where:{id:id}})
+    await Residents.destroy({where:{id:id}})
+    await CardViol.destroy({where:{id:id}})
+    console.log(card)                                       // в будущем переписать с использованием транзакций, пакетного удаления, проверки связных записей
     return card
   }
 

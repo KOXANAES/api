@@ -12,4 +12,7 @@ export default class AuthService {
   static async logout(): Promise<void> { 
     return $api.post('/auth/logout')
   }
+  static async updateNickname(nickname:string): Promise<void> { 
+    return $api.post('/auth/updateNickname')
+  }
 }

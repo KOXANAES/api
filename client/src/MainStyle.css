@@ -51,3 +51,18 @@ body {
 .green-btn:hover { 
   background-color: var(--green);
 }
+
+.change-btn {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--orange);
+  color: var(--orange);
+  transition: .1s;
+}
+.change-btn:hover { 
+  color: var(--orangeSelected);
+}
+
+.error_message {
+  color: red;
+}

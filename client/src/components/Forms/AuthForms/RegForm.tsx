@@ -6,9 +6,11 @@ import '../Forms.css'
 
 interface ModalProps { 
   setActive: (active: boolean) => void;
+  changeForm: boolean
+  handleChangeForm: (active: boolean) => void;
 }
 
-const LoginForm: FC<ModalProps> = ({setActive}) => { 
+const LoginForm: FC<ModalProps> = ({setActive, changeForm, handleChangeForm}) => { 
 
   const {authStore} = useContext(Context)
 
@@ -31,7 +33,7 @@ const LoginForm: FC<ModalProps> = ({setActive}) => {
 
   return( 
     <div className='forms'>
-      <label>Имя пользователя или e-mail</label>
+      <h2>Регистрация</h2>
       <input 
         className="forms_input"
         onChange={e => setEmail(e.target.value)}
@@ -39,7 +41,6 @@ const LoginForm: FC<ModalProps> = ({setActive}) => {
         type='text' 
         placeholder='Email'
       />
-      <label>Пароль</label>
       <input 
         className='forms_input'
         onChange={e => setPassword(e.target.value)}
@@ -47,7 +48,6 @@ const LoginForm: FC<ModalProps> = ({setActive}) => {
         type='password' 
         placeholder='Пароль'
       />
-      <label>Никнейм</label>
       <input 
         className='forms_input'
         onChange={e => setNickname(e.target.value)}
@@ -56,7 +56,8 @@ const LoginForm: FC<ModalProps> = ({setActive}) => {
         placeholder='Никнейм'
       />
       {errorMessage ? <p className='error_message'>{errorMessage}</p> : ''}
-      <button id='forms_reg_btn' onClick = {handleReg}>Регистрация</button>
+      <button className='orange-btn' onClick = {handleReg}>Регистрация</button>
+      <p className='select__form'><button className='change-btn' onClick={() => handleChangeForm(changeForm)}>перейти к окну авторизации</button></p>
     </div>
   )
 }

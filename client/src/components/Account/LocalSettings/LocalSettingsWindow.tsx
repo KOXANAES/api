@@ -11,24 +11,20 @@ const LocalSettingsWindow = () => {
 
   const [suggestModalActive, setSuggestModalActive] = useState(false);
 
-  const handleChangeNickname = async() => { 
-    
-  }
-
   return (
 <div className='acc__settings'>
   <div className='profile-data'>
     <h2>Данные профиля</h2>
     <div className='acc__settings___option'>
-      <h4>Имя пользователя <button onClick={handleChangeNickname} className='acc__change-btn'>Изменить</button></h4>
+      <h4>Имя пользователя <button className='change-btn'>Изменить</button></h4>
       <p>{authStore.user.nickname}</p>
     </div>
     <div className='acc__settings___option'>
-      <h4>E-mail <button className='acc__change-btn'>Изменить</button></h4>
+      <h4>E-mail <button className='change-btn'>Изменить</button></h4>
       <p>{authStore.user.email}</p>
     </div>
     <div className='acc__settings___option'>
-      <h4>Пароль <button className='acc__change-btn'>Изменить</button></h4>
+      <h4>Пароль <button className='change-btn'>Изменить</button></h4>
       <p>*******</p>
     </div>
     <div className='acc__settings___option'>

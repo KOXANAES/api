@@ -95,8 +95,16 @@ const AddCardForm: FC<AddCardFormProps> = ({setActive, setHomes}) => {
       </div>  
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='category_inp'>Категория:</label>
-        <input id='category_inp' className="table_forms_input" onChange={e => setCategory(e.target.value)} value={category} type='text'/>
-      </div>
+        <select className="table_forms_input" id="category_inp" value={category} onChange={e => setCategory(e.target.value)}>
+        <option value="">Выбрать категорию</option>
+        <option value="Одинокий">Одинокий</option>
+        <option value="Одиноко проживающий">Одиноко проживающий</option>
+        <option value="Инвалид">Инвалид</option>
+        <option value="1-2 ребёнка">Семья, воспитывающая 1-2 ребёнка</option>
+        <option value="Многодетная">Многодетная семья</option>
+        <option value="Иные">Иные</option>
+      </select>
+      </div>  
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='otherInfo_inp'>Иные сведения:</label>
         <input id='otherInfo_inp' className="table_forms_input" onChange={e => setOtherInfo(e.target.value)} value={otherInfo} type='text'/>
