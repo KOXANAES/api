@@ -9,14 +9,13 @@ import './Navbar.css'
 import Logo from "../Logo/Logo"
 
 import logo from '../../assets/images/fire.png'
-import { ACC_ROUTE, STATS_ROUTE, TABLE_ROUTE } from "../../router/Consts";
+import { ACC_ROUTE, TABLE_ROUTE } from "../../router/Consts";
+import SuggestForm from "../Suggest/Suggest";
 
 interface Navbar { 
-  active: boolean; 
-  setActive: (active: boolean) => void;
 }
 
-const Navbar: FC<Navbar> = ({active, setActive}) => { 
+const Navbar: FC<Navbar> = ({}) => { 
 
   const {authStore} = useContext(Context)
 
@@ -38,7 +37,7 @@ const Navbar: FC<Navbar> = ({active, setActive}) => {
   return( 
     <div className='navbar'>
       <div className='navbar_left'>
-        <Logo active={active} setActive={setActive}/>
+        <Logo/>
       </div>
       <div className='navigationMenu'>
         <NavLink 
@@ -57,25 +56,17 @@ const Navbar: FC<Navbar> = ({active, setActive}) => {
         >
             Аккаунт
             </NavLink>
-            <NavLink 
-            className={({ isActive }) => 
-                isActive ? 'navigationMenu__links active' : 'navigationMenu__links'
-            } 
-            to={STATS_ROUTE}
-        >
-            Статистика
-            </NavLink>
       </div>
       <div className='navbar_right'>
         <div className='greeting'>
           <p>{authStore.isAuth ? <span>Добро пожаловать, <span>{authStore.user.nickname}</span>. Нажмите на <img src={logo} alt='' style={{width:'15px', height:'15px'}}></img> чтобы открыть меню</span> : '> Для работы сервиса необходимо войти в аккаунт'}</p>
           <p>{authStore.isAuth && !authStore.user.isActivated ? <span className='activate_message'>ВНИМАНИЕ! Сервис доступен только для авторизованных пользователей! <button id='activate_btn' onClick={handleActivate}>Активируйте</button> аккаунт по почте <span className='activate_message' id='user_mail_message'>{authStore.user.email}</span></span> : ''}</p>
         </div>
-        {authStore.isAuth ? '' : <button className='navbar_authButtons' onClick={() => setLoginModalActive(true)}>ВОЙТИ</button>}
+        {authStore.isAuth ? '' : <button className='orange-btn' onClick={() => setLoginModalActive(true)}>ВОЙТИ</button>}
           <LoginModal active={loginModalActive} setActive={setLoginModalActive}/>
-        {authStore.isAuth ? '' : <button className='navbar_authButtons' onClick={() => setRegModalActive(true)}> РЕГИСТРАЦИЯ</button>}
+        {authStore.isAuth ? '' : <button className='orange-btn' onClick={() => setRegModalActive(true)}> РЕГИСТРАЦИЯ</button>}
           <RegModal active={regModalActive} setActive={setRegModalActive}/>
-        {authStore.isAuth ? <button className='navbar_authButtons' onClick={handleOut}>Выйти</button> : ''}
+        {authStore.isAuth ? <button className='orange-btn' onClick={handleOut}>Выйти</button> : ''}
       </div>
     </div>
   )

@@ -37,7 +37,7 @@ const AddCardForm: FC<AddCardFormProps> = ({setActive, setHomes}) => {
         }
       })
       setErrorMessage(null)
-      setActive(false)
+      // setActive(false)
     } catch(e:any) { 
       setErrorMessage(e.response?.data?.message)
     }

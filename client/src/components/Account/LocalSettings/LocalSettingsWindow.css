@@ -1,0 +1,24 @@
+.acc__settings { 
+  display: flex;
+  flex-direction: column;
+}
+
+.acc__settings___option { 
+  border-bottom: 1px solid var(--pale_white);
+}
+
+.acc__change-btn { 
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--orange);
+  color: var(--orange);
+  transition: .1s;
+}
+.acc__change-btn:hover { 
+  color: var(--orangeSelected);
+}
+
+.acc__support-section { 
+  margin-top: 20px;
+  text-align: center;
+}

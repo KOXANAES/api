@@ -18,5 +18,36 @@ body {
   --themeColor2: rgb(52, 52, 52);
   --orange: rgb(242,114,28);
   --orangeSelected: rgb(240, 159, 105);
+  --green: rgb(13,246,155);
   --white: rgb(255,255,255);
+  --pale_white: rgba(255,255,255,.25)
+}
+
+
+.orange-btn {
+  background-color: transparent;
+  margin: 0px 5px;
+  padding: 5px 10px;
+  border: 1px solid var(--orange);
+  font-size: 12px;
+  color: white;
+  transition: .1s;
+  text-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
+}
+.orange-btn:hover { 
+  background-color: var(--orange);
+}
+
+.green-btn { 
+  background-color: transparent;
+  padding: 5px 10px;
+  border: 1px solid var(--green);
+  font-size: 13px;
+  color: white;
+  transition: .1s;
+  text-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
+  width: 100%;
+}
+.green-btn:hover { 
+  background-color: var(--green);
 }

@@ -1,23 +1,20 @@
 import './Logo.css'
 import logo from '../../assets/images/fire.png'
-import { FC } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-interface Logo { 
-  active: boolean; 
-  setActive: (active: boolean) => void;
-}
+const Logo = ({}) => { 
 
-const Logo:FC<Logo> = ({active, setActive}) => { 
+  const navigate = useNavigate()
+
   return(
     <div className="logo">
-      <img id='logo_img' src={logo} alt='logo' onClick={() => setActive(!active)}/>
+      <img id='logo_img' src={logo} alt='logo' onClick={() => navigate('/')}/>
       <div>
-        <p id='logo_name'><Link to='/'>HOMES</Link></p>
+        <p id='logo_name'><Link to='/'>АПИ</Link></p>
         <p id='logo_decs'>Cистема учёта проведения пожарно-профилактической работы</p>
       </div>
     </div>
   )
-}
+} 
 
 export default Logo

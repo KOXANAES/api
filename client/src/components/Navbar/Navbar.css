@@ -33,20 +33,6 @@
   align-items: center;
   justify-content: end;
 }
-.navbar_authButtons { 
-  background-color: transparent;
-  margin: 0px 5px;
-  padding: 5px 10px;
-  border: 1px solid rgb(242,114,28);
-  font-size: 12px;
-  color: white;
-  transition: .1s;
-  text-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
-}
-.navbar_authButtons:hover { 
-  background-color: rgb(242,114,28);
-}
-
 
 .navigationMenu { 
   display: flex;

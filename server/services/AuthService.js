@@ -98,6 +98,8 @@ class AuthService {
     return `Ссылка для активации аккаунта была отправлена на почту ${email}`
 }
 
+  
+
   async getUsers() { 
     const users = User.findAll()
     console.log(users)
