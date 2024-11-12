@@ -1,5 +1,5 @@
 .navbar { 
-  background-color: rgb(35,35,35);
+  background-color: var(--themeColor1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7,6 +7,12 @@
   top: 0;
   color: white;
   padding: 5px 10px 5px 10px;
+}
+.navbar__left { 
+  flex: 1;
+}
+.navbar__right { 
+  flex: 1;
 }
 .greeting { 
   display: flex;
@@ -28,7 +34,7 @@
   background-color: transparent;
   text-decoration: underline;
 }
-.navbar_right {
+.navbar__right {
   display: flex;
   align-items: center;
   justify-content: end;

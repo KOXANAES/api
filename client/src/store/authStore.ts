@@ -5,7 +5,8 @@ import axios from "axios";
 import { AuthResponce } from "../models/responce/AuthResponse";
 import { API_URL } from "../http";
 
-export default class authStore { 
+export default class AuthStore {
+
   user =  {} as IUser;
   isAuth = false
   isLoading = false
@@ -105,6 +106,16 @@ export default class authStore {
       const response = await AuthService.updateNickname(nickname)
     } catch(e) { 
       throw e
+    }
+  }
+
+  async getUsers() { 
+    try { 
+      const response = await AuthService.getUsers()
+      const userArray = response.data;
+      return userArray
+    } catch(e) { 
+      throw(e)
     }
   }
 

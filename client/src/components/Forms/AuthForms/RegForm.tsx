@@ -53,7 +53,7 @@ const LoginForm: FC<ModalProps> = ({setActive, changeForm, handleChangeForm}) =>
         onChange={e => setNickname(e.target.value)}
         value={nickname}
         type='text' 
-        placeholder='Никнейм'
+        placeholder='Ваше имя'
       />
       {errorMessage ? <p className='error_message'>{errorMessage}</p> : ''}
       <button className='orange-btn' onClick = {handleReg}>Регистрация</button>

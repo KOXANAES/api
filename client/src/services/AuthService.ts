@@ -15,4 +15,7 @@ export default class AuthService {
   static async updateNickname(nickname:string): Promise<void> { 
     return $api.post('/auth/updateNickname')
   }
+  static async getUsers() {
+    return $api.get('/auth/getUsers')
+  }
 }

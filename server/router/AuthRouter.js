@@ -15,6 +15,6 @@ AuthRouter.post('/updateNickname', AuthMiddleware, AuthController.updateNickname
 AuthRouter.get('/activate/:link', AuthController.activate)
 AuthRouter.get('/refresh', AuthController.refresh)
 
-AuthRouter.get('/users', AuthMiddleware, AuthController.getUsers)
+AuthRouter.get('/getUsers', AuthController.getUsers)
 
 module.exports = AuthRouter

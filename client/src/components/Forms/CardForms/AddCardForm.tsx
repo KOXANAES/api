@@ -3,13 +3,17 @@ import { Context } from "../../../main"
 import { observer } from "mobx-react-lite"
 import { IInspectionCard } from '../../../models/ICardNew';
 import '../TableForms.css'
+import { IUser } from "../../../models/IUser";
+
 
 interface AddCardFormProps { 
   setActive: (active: boolean) => void;
   setHomes: (homes: IInspectionCard[]) => void;
+  usersArr: IUser[];
+
 }
 
-const AddCardForm: FC<AddCardFormProps> = ({setActive, setHomes}) => {
+const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
 
   const {cardStore} = useContext(Context)
 
@@ -37,16 +41,20 @@ const AddCardForm: FC<AddCardFormProps> = ({setActive, setHomes}) => {
         }
       })
       setErrorMessage(null)
-      // setActive(false)
+      setActive(false)
     } catch(e:any) { 
       setErrorMessage(e.response?.data?.message)
     }
   }
 
+
+
   return( 
     <div className='table_cardProfile'>
     <div className='table_cardProfile_header'>
+      {/* <button onClick={() => fetchUsers()}>123</button> */}
       <h1>Создать учетную форму</h1>
+                
     </div>
     <div className='table_cardProfile_creation'>
       <div  className='table_cardProfile_form_inner'>
@@ -59,7 +67,10 @@ const AddCardForm: FC<AddCardFormProps> = ({setActive, setHomes}) => {
       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='responsibleWorker_inp'>Ответственный работник:</label>
-        <input id='responsibleWorker_inp' className="table_forms_input" onChange={e => setResponsibleWorker(e.target.value)} value={responsibleWorker} type='text'/>
+        <select className="table_forms_input" id="category_inp" value={category} onChange={e => setResponsibleWorker(e.target.value)}>
+          <option value=''>Выбрать</option>
+          {usersArr.map((user, index) => (<option value={user.nickname} key={index}>{user.nickname}</option>))}
+        </select>
       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='inspectionDate_inp'>Проверено:</label>
@@ -111,7 +122,7 @@ const AddCardForm: FC<AddCardFormProps> = ({setActive, setHomes}) => {
       </div>
     </div>
     <div className='table_cardProfile_addForm'>
-      <button id='forms_reg_btn' onClick = {handleAdd}>Добавить</button>
+      <button className='orange-btn' onClick = {handleAdd}>Добавить</button>
     </div>
   </div>
   )

@@ -72,3 +72,17 @@ header {
 .main_table_cards:nth-child(even) { 
     background-color: rgba(255, 255, 255, 0.15);
 }
+
+.table__pagination { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table__pagination-disabled { 
+  border: 1px solid red;
+  cursor: default;
+
+}
+.table__pagination-disabled:hover { 
+  background-color: transparent;
+}

@@ -234,7 +234,7 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
       </div>
     </div>
     <div className='table_cardProfile_addForm'>
-      <button id='forms_reg_btn' onClick = {() => handleFill(homeProps.id)}>Добавить</button>
+      <button className='orange-btn' onClick = {() => handleFill(homeProps.id)}>Добавить</button>
     </div>
   </div>
   )

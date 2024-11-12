@@ -105,9 +105,7 @@ class AuthService {
   }
 
   async getUsers() { 
-    const users = User.findAll()
-    console.log(users)
-    console.log(typeof(users))
+    const users = await User.findAll()
     return users
   }
 

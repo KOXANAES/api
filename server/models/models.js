@@ -24,7 +24,7 @@ const Card = sequelize.define('card', {
   inspectionDeadline: { type: DataTypes.STRING },
   responsibleWorker: { type: DataTypes.STRING },
   category: { type: DataTypes.STRING },
-  status: { type: DataTypes.STRING },
+  status: { type: DataTypes.STRING, defaultValue: 'Не посещено' },
   otherInfo: { type: DataTypes.STRING },
 });
 

@@ -43,9 +43,9 @@ const Navbar: FC= () => {
 
   return( 
     <div className='navbar'>
-      <div className='navbar_left'>
+      <div className='navbar__left'>
         <Logo/>
-      </div>
+      </div>  
       <div className='navigationMenu'>
         <NavLink 
           className={({ isActive }) => isActive ? 'navigationMenu__links active' : 'navigationMenu__links'} 
@@ -60,7 +60,7 @@ const Navbar: FC= () => {
           Аккаунт
         </NavLink>
       </div>
-      <div className='navbar_right'>
+      <div className='navbar__right'>
         <div className='greeting'>
           <p>
             {authStore.isAuth ? 

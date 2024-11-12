@@ -8,15 +8,17 @@ import { IInspectionCard } from "../../models/ICardNew";
 import AddCardModal from "../Modals/CardModals/AddCardModal"
 import ProfileCardModal from "../Modals/CardModals/ProfileCardModal"
 import FillCardModal from "../Modals/CardModals/FillCardModal"
+import { IUser } from "../../models/IUser";
 
 const Table: FC = () => { 
 
   const {cardStore} = useContext(Context)
+  const {authStore} = useContext(Context)
 
   const [homes, setHomes] = useState<IInspectionCard[]>([])
   const [home, setHome] = useState<IInspectionCard>({} as IInspectionCard)
 
-  const [addModalActive, setAddModalActive] = useState<boolean>(false)
+  const [addModalActive, setAddModalActive] = useState<boolean>(true)
   const [fillModalActive, setFillModalActive] = useState<boolean>(false)
   const [profileModalActive, setProfileModalActive] = useState<boolean>(false)
 
@@ -58,22 +60,55 @@ const Table: FC = () => {
     }
   }
 
+    // получаем список тех, кому можно делегировать форму
+    const [users, setUsers] = useState<IUser[]>([])
+    useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const userArray = await authStore.getUsers()
+          const filteredUsers = userArray.map((userArray: { nickname: any; }) => ({
+            nickname: userArray.nickname,
+          }));
+          setUsers(filteredUsers)
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchUsers();
+     }, []);
+
+
+  // category filter 
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(event.target.value)
+    setCurrentPage(1)
+  }
+  // responsible filter
+  const [selectedResponsible, setSelectedResponsible] = useState<string>('');
+  const handleResponsibleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedResponsible(event.target.value);
+    setCurrentPage(1);
+  };
 
 
 
-
+  const filteredHomes = homes.filter(home => {
+    const categoryMatch = selectedCategory ? home.category === selectedCategory : true;
+    const responsibleMatch = selectedResponsible ? home.responsibleWorker === selectedResponsible : true;
+    return categoryMatch && responsibleMatch;
+  });
 
 
   // pagination
   const [currentPage, setCurrentPage] = useState<number>(1)
   const itemsPerPage = 10
 
-  const totalPages = Math.ceil(homes.length / itemsPerPage)
+  const totalPages = Math.ceil(filteredHomes.length / itemsPerPage);
 
-
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = homes.slice(indexOfFirstItem, indexOfLastItem)
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredHomes.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -87,15 +122,12 @@ const Table: FC = () => {
     }
   }
 
-
-
   return( 
     <>
       <main>
         <header>
             <button className='tool_btns_btn_down' onClick={handleGetCards}>Обновить</button>
             <button className='tool_btns_btn_down' onClick={() => setAddModalActive(true)}>Добавить</button>
-            <button className='tool_btns_btn_down'>Поиск</button>
         </header>
         <table className='main_table'>
           <thead>
@@ -105,9 +137,26 @@ const Table: FC = () => {
               <th>Дом</th>
               <th>Квартира</th>
               <th>Обследовать до</th>
-              <th>Ответственный</th>
+              <th>
+                Ответственный
+              <select className="table_forms_input" id="category_inp" value={selectedResponsible} onChange={handleResponsibleChange}>
+                <option value=''>Выбрать</option>
+                {users.map((user, index) => (<option value={user.nickname} key={index}>{user.nickname}</option>))}
+              </select>
+              </th>
               <th>Статус</th>
-              <th>Категория</th>
+              <th>
+                Категория
+                <select value={selectedCategory} onChange={handleCategoryChange}>
+                  <option value="">Все</option>
+                  <option value="Одинокий">Одинокий</option>
+                  <option value="Одиноко проживающий">Одиноко проживающий</option>
+                  <option value="Инвалид">Инвалид</option>
+                  <option value="1-2 ребёнка">Семья, воспитывающая 1-2 ребёнка</option>
+                  <option value="Многодетная">Многодетная семья</option>
+                  <option value="Иные">Иные</option>
+                </select>
+              </th>
               <th>Дополнительно</th>
             </tr>
           </thead>
@@ -129,12 +178,12 @@ const Table: FC = () => {
             )}
           </tbody>
         </table>
-        <div className="pagination">
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>Назад</button>
+        <div className="table__pagination">
+          <button className={currentPage === 1 ? 'orange-btn table__pagination-disabled' : 'orange-btn'} onClick={handlePrevPage} disabled={currentPage === 1}>Назад</button>
           <span>Страница {currentPage} из {totalPages}</span>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>Вперед</button>
+          <button className={currentPage === totalPages ? 'orange-btn table__pagination-disabled' : 'orange-btn'} onClick={handleNextPage} disabled={currentPage === totalPages}>Вперед</button>
         </div>
-        <AddCardModal active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/>
+        <AddCardModal usersArr={users} active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/>
         <ProfileCardModal active={profileModalActive} setActive={setProfileModalActive} setHomes={setHomes} home={home}/>
         <FillCardModal active={fillModalActive} setActive={setFillModalActive} setHomes={setHomes}  home={home}/>
       </main>
