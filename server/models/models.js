@@ -19,9 +19,9 @@ const Token = sequelize.define('token', {
     
 const Card = sequelize.define('card', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true, allowNull: false },
-  creationDate: { type: DataTypes.STRING },
+  creationDate: { type: DataTypes.DATE },
   inspectionDate: { type: DataTypes.STRING },
-  inspectionDeadline: { type: DataTypes.STRING },
+  inspectionDeadline: { type: DataTypes.DATE },
   responsibleWorker: { type: DataTypes.STRING },
   category: { type: DataTypes.STRING },
   status: { type: DataTypes.STRING, defaultValue: 'Не посещено' },

@@ -13,7 +13,7 @@ export default class CardStore {
     } 
   }   
 
-  async addCard(creationDate: string, inspectionDate: string, inspectionDeadline: string, responsibleWorker: string, otherInfo: string, city: string, street: string, home: string, apartment: string, homeType: string, category: string, owner: string) { 
+  async addCard(creationDate:Date,inspectionDate: string, inspectionDeadline: Date, responsibleWorker: string, otherInfo: string, city: string, street: string, home: string, apartment: string, homeType: string, category: string, owner: string) { 
     try { 
       await CardService.addCard(creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
     } catch(e:any) { 

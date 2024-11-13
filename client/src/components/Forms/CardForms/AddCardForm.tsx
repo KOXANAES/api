@@ -17,9 +17,8 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
 
   const {cardStore} = useContext(Context)
 
-  const [creationDate, setCreationDate] = useState<string>('')
   const [inspectionDate, setInspectionDate] = useState<string>('')
-  const [inspectionDeadline, setInspectionDeadline] = useState<string>('')
+  const [inspectionDeadline, setInspectionDeadline] = useState<Date>(new Date())
   const [responsibleWorker, setResponsibleWorker] = useState<string>('')
   const [otherInfo, setOtherInfo] = useState<string>('')
   const [city, setCity] = useState<string>('')
@@ -33,6 +32,8 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
   const [errorMessage, setErrorMessage] = useState(null)
 
   const handleAdd = async() => { 
+    const creationDate = new Date()
+    console.log(creationDate)
     try { 
       await cardStore.addCard(creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
       await cardStore.getCards().then((cards) => {
@@ -41,29 +42,38 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
         }
       })
       setErrorMessage(null)
-      setActive(false)
+      // setActive(false)
     } catch(e:any) { 
       setErrorMessage(e.response?.data?.message)
     }
   }
 
+  // функция для отображения выбранной даты в самом input'e
+  const formatDateToInput = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
 
+  
+  const handleDeadlineDate = async(e:string) => {
+    const inspectionDeadline = new Date(e)
+    setInspectionDeadline(inspectionDeadline)
+    console.log(inspectionDate)
+  }
 
   return( 
     <div className='table_cardProfile'>
     <div className='table_cardProfile_header'>
-      {/* <button onClick={() => fetchUsers()}>123</button> */}
       <h1>Создать учетную форму</h1>
-                
     </div>
     <div className='table_cardProfile_creation'>
       <div  className='table_cardProfile_form_inner'>
-        <label htmlFor='creationDate_inp'>Дата создания:</label>
-        <input id='creationDate_inp' className="table_forms_input" onChange={e => setCreationDate(e.target.value)} value={creationDate} type='text'/>
-      </div>
-      <div  className='table_cardProfile_form_inner'>
         <label htmlFor='inspectionDeadline_inp'>Срок проверки:</label>
-        <input id='inspectionDeadline_inp' className="table_forms_input" onChange={e => setInspectionDeadline(e.target.value)} value={inspectionDeadline} type='text'/>
+          <input id='inspectionDeadline_inp' className="table_forms_input" onChange={e => handleDeadlineDate(e.target.value)} value={formatDateToInput(inspectionDeadline)} type='datetime-local'/>
       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='responsibleWorker_inp'>Ответственный работник:</label>

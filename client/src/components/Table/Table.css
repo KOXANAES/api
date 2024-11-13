@@ -86,3 +86,11 @@ header {
 .table__pagination-disabled:hover { 
   background-color: transparent;
 }
+
+.test1 {
+  background-color: red; /* Цвет для истекшего срока */
+}
+
+.warning-class {
+  background-color: yellow; /* Цвет для предупреждения (менее 5 дней) */
+}

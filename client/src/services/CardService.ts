@@ -7,7 +7,7 @@ export default class CardService {
     static fetchCards():Promise<AxiosResponse<IInspectionCard[]>> { 
         return $api.get<IInspectionCard[]>('/db/findAll')
     }
-    static addCard(creationDate: string, inspectionDate: string, inspectionDeadline: string, responsibleWorker: string, otherInfo: string, city: string, street: string, home: string, apartment: string, homeType: string, category: string, owner: string):Promise<AxiosResponse<IInspectionCard[]>> { 
+    static addCard(creationDate:Date, inspectionDate: string, inspectionDeadline: Date, responsibleWorker: string, otherInfo: string, city: string, street: string, home: string, apartment: string, homeType: string, category: string, owner: string):Promise<AxiosResponse<IInspectionCard[]>> { 
         return $api.post('/db/add', {creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner})
     }
     static fillCard(id: number, rooms: string, APIs: string, faultyAPIs: string, noBatteryAPIs: string, ovens: string, faultyOvens: string, repairNeededOvens: string, residents: Resident[], violationIds: number[]):Promise<AxiosResponse<IInspectionCard[]>> { 

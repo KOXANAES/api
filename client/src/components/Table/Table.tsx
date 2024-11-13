@@ -28,7 +28,8 @@ const Table: FC = () => {
         setHomes(cards);
         console.log(cards)
       }
-    })
+    }
+  )
   }, []);
 
   const handleGetCards = async() => {
@@ -121,6 +122,20 @@ const Table: FC = () => {
       setCurrentPage(currentPage - 1)
     }
   }
+  
+  const isInspectionDeadlineApproaching = (creationDate: Date, inspectionDeadline: Date) => {
+    const creationDateObj = new Date(creationDate);
+    const inspectionDeadLineObj = new Date(inspectionDeadline);
+    const creationTime = creationDateObj.getTime();
+    const inspectionTime = inspectionDeadLineObj.getTime();
+    const timeDifference = inspectionTime - creationTime;
+    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+    if (daysDifference <= 0) return 'expired';
+    if (daysDifference < 3) return 'approaching';
+    if (daysDifference < 5) return 'warning';
+    return 'normal';
+};
+
 
   return( 
     <>
@@ -167,7 +182,13 @@ const Table: FC = () => {
                 <td onClick={() => handleProfile(homes)}>{homes?.adress?.street}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.adress?.home}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.adress?.apartment}</td>
-                <td onClick={() => handleProfile(homes)}>{homes?.inspectionDeadline}</td>
+                <td 
+                  className={isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'expired' ? 'test1' : 
+                             isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'warning' ? 'warning-class' : 
+                             isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'approaching' ? 'test1' : ''} 
+                  onClick={() => handleProfile(homes)}>
+    {             homes?.inspectionDeadline}
+                </td>           
                 <td onClick={() => handleProfile(homes)}>{homes?.responsibleWorker}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.status}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.category}</td>

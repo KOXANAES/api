@@ -2,7 +2,6 @@ import './CardProfile.css'
 import { FC, useContext, useState } from 'react'
 import { IInspectionCard } from '../../models/ICardNew';
 import { Context } from '../../main';
-import edit from '../../assets/images/edit.png'
 
 interface CardProfile { 
   setActive: (active: boolean) => void;
@@ -29,11 +28,6 @@ const CardProfile:FC<CardProfile> = ({setActive, setHomes, home}) => {
   
   console.log(home)
   
-  const handleEdit = async() => { 
-    alert('123')
-  }
-
-
   return(
   <div className='cardProfile'>
     <div className='cardProfile_header'>
@@ -43,7 +37,7 @@ const CardProfile:FC<CardProfile> = ({setActive, setHomes, home}) => {
     <div className='cardProfile_creation'>
       {home && (
         <ul className='profile_list'>
-          <li><p>Дата создания:</p><p>{home.creationDate}<img className='edit_img' src={edit} alt='edit' onClick={() => handleEdit()}/></p></li>
+          <li>Дата создания: {home.creationDate}</li>
           <li>Срок проверки: {home.inspectionDeadline}</li>
           <li>Ответственный работник: {home.responsibleWorker}</li>
           <li>Проверено: {home.inspectionDate}</li>
