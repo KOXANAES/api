@@ -17,7 +17,6 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
 
   const {cardStore} = useContext(Context)
 
-  const [inspectionDate, setInspectionDate] = useState<string>('')
   const [inspectionDeadline, setInspectionDeadline] = useState<Date>(new Date())
   const [responsibleWorker, setResponsibleWorker] = useState<string>('')
   const [otherInfo, setOtherInfo] = useState<string>('')
@@ -33,16 +32,15 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
 
   const handleAdd = async() => { 
     const creationDate = new Date()
-    console.log(creationDate)
     try { 
-      await cardStore.addCard(creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
+      await cardStore.addCard(creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
       await cardStore.getCards().then((cards) => {
         if (cards) {
           setHomes(cards);
         }
       })
       setErrorMessage(null)
-      // setActive(false)
+      setActive(false)
     } catch(e:any) { 
       setErrorMessage(e.response?.data?.message)
     }
@@ -62,7 +60,6 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
   const handleDeadlineDate = async(e:string) => {
     const inspectionDeadline = new Date(e)
     setInspectionDeadline(inspectionDeadline)
-    console.log(inspectionDate)
   }
 
   return( 
@@ -81,10 +78,6 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
           <option value=''>Выбрать</option>
           {usersArr.map((user, index) => (<option value={user.nickname} key={index}>{user.nickname}</option>))}
         </select>
-      </div>
-      <div  className='table_cardProfile_form_inner'>
-        <label htmlFor='inspectionDate_inp'>Проверено:</label>
-        <input id='inspectionDate_inp' className="table_forms_input" onChange={e => setInspectionDate(e.target.value)} value={inspectionDate} type='text'/>
       </div>
     </div>
     <div className='table_cardProfile_info'>

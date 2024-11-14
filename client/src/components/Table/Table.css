@@ -94,3 +94,7 @@ header {
 .warning-class {
   background-color: yellow; /* Цвет для предупреждения (менее 5 дней) */
 }
+
+.highlight__green { 
+  background-color: green;
+}

@@ -6,7 +6,7 @@ const sequelize = require('../models/sequelize');
 class CardService { 
  
   async add(
-    creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner) { 
+    creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner) { 
   // if (!city) {
   //   throw ApiError.BadRequest('Поле "Город" является обязательным!')
   // }
@@ -21,7 +21,7 @@ class CardService {
   //   throw ApiError.BadRequest('Карточка с таким адресом уже существует!') 
   // }
   const card = await Card.create({
-    creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, category,
+    creationDate, inspectionDeadline, responsibleWorker, otherInfo, category,
     adress: { city, street, home, apartment },
     char: { homeType, owner },
   }, {include: [
@@ -33,7 +33,7 @@ class CardService {
     return { card }
   }
 
-  async fill(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds) { 
+  async fill(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds, changeStatus, fillDate) { 
     const char = await Char.findOne({where:{id:id}})
     Object.assign(char, {
       rooms,
@@ -55,8 +55,14 @@ class CardService {
     const card = await Card.findOne({where:{id:id}})
     const violations = await Violations.findAll({ where: { id: { [Op.in]: violationIds } } });
     await card.addViolations(violations);
-    return card
-  }
+    await Card.update(
+      { 
+        status: changeStatus,
+        inspectionDate: fillDate,
+      },
+      { where: { id: id } }
+    );    return card
+    }
 
   async createViol(name, description) {
     const viola = await Violations.create({name, description}) 
@@ -100,6 +106,16 @@ class CardService {
       include: Adress
     })
     return {card}
+  }
+
+  async fetchViolations() { 
+    const violations = await Violations.findAll()
+    return violations
+  }
+
+  async addViolationVariant(name, description) { 
+    const addedViolation = await Violations.create({name, description});
+    return addedViolation
   }
 
 }

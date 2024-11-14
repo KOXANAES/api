@@ -13,5 +13,7 @@ DbRouter.post('/addViolation', DbController.addViolation)
 DbRouter.get('/findAll', DbController.findAll)
 DbRouter.post('/findOne', DbController.findOne)
 
+DbRouter.post('/addViolationVariant', DbController.addViolationVariant)
+DbRouter.get('/fetchViolations', DbController.fetchViolations)
 
-module.exports = DbRouter
+module.exports = DbRouter 

@@ -4,8 +4,8 @@ class DbController {
 
   async add(req,res,next) { 
     try {
-      const {creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner} = req.body
-      const card = await cardService.add(creationDate, inspectionDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
+      const {creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner} = req.body
+      const card = await cardService.add(creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
       return res.json(card)
     } catch(e) { 
       next(e)
@@ -14,9 +14,9 @@ class DbController {
 
   async fill(req,res,next) { 
     try {
-      const {id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds} = req.body
+      const {id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds, changeStatus, fillDate} = req.body
       console.log(id)
-      const card = await cardService.fill(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds)
+      const card = await cardService.fill(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds, changeStatus, fillDate)
       return res.json(card)
     } catch(e) { 
       next(e)
@@ -71,6 +71,25 @@ class DbController {
       next(e)
     }
   }
+
+  async fetchViolations(req,res,next) { 
+    try { 
+      const violations = await cardService.fetchViolations()
+      return res.json(violations)
+    } catch(e) {
+      next(e)
+    }
+  }
+  
+  async addViolationVariant(req,res,next) { 
+    try { 
+      const {name, description} = req.body 
+      const addedViolationVariant = await cardService.addViolationVariant(name, description)
+      return res.json(addedViolationVariant)
+    } catch(e) { 
+      next(e)
+    }
+  } 
 
 }
 

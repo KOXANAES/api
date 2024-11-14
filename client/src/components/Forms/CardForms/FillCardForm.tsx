@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react"
+import { FC, useContext, useEffect, useState } from "react"
 import { Context } from "../../../main"
 import { observer } from "mobx-react-lite"
 import { IInspectionCard } from "../../../models/ICardNew"
@@ -19,6 +19,12 @@ export interface Resident {
 
 export interface Violation {
   id: number;
+}
+
+export interface ViolationVariant { 
+  id: number; 
+  name: string; 
+  description: string
 }
 
 const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
@@ -46,9 +52,35 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
 
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const handleFill = async(id:number) => { 
+
+  // подгружаем все возможные нарушения
+  const [violationVariants, setViolationVariants] = useState<any>([])
+  useEffect(() => {
+    const fetchViolationVariants = async () => {
+      try {
+        const violationsArray = await cardStore.getViolations();
+        console.log(violationsArray);
+        setViolationVariants(violationsArray);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchViolationVariants();
+  }, []);
+  const ViolationsVariantsList = violationVariants.map((violationVar: ViolationVariant) => {
+    return {
+      id: violationVar.id,
+      name: violationVar.name,
+      description: violationVar.description
+    };
+  });
+
+
+  const handleFill = async(id:number) => {
     try { 
-      await cardStore.fillCard(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violations)
+      const changeStatus = 'Посещено'
+      const fillDate = new Date()
+      await cardStore.fillCard(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violations, changeStatus, fillDate)
       await cardStore.getCards().then((cards) => {
         if (cards) {
           setHomes(cards);
@@ -185,11 +217,11 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
         }
       </div>
       <div  className='table_cardProfile_form_inner' id='residents_form'>
-        <label htmlFor='owner_inp'>Проживающие в доме:</label>
-        <input className="name_inp" onChange={e => setName(e.target.value)} value={name} type='text'/>
-        <input className="surname_inp" onChange={e => setSurname(e.target.value)} value={surname} type='text'/>
-        <input className="paternity_inp" onChange={e => setPaternity(e.target.value)} value={paternity} type='text'/>
-        <input className="birth_inp" onChange={e => setBirth(e.target.value)} value={birth} type='text'/>
+        <label htmlFor='owner_inp'>Проживающие в доме (с указанием даты рождения):</label>
+        <input className="name_inp" onChange={e => setName(e.target.value)} value={name} type='text' placeholder='Имя'/>
+        <input className="surname_inp" onChange={e => setSurname(e.target.value)} value={surname} type='text' placeholder='Фамилия'/>
+        <input className="paternity_inp" onChange={e => setPaternity(e.target.value)} value={paternity} type='text' placeholder='Отчество'/>
+        <input className="birth_inp" onChange={e => setBirth(e.target.value)} value={birth} type='date'/>
         <button onClick={handleResidents}>Добавить</button>
       </div>
       <div  className='table_cardProfile_form_inner'>
@@ -217,12 +249,8 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
     <div className='table_cardProfile_violations'>
       <label>Нарушения:</label>
       <select value={violationId} onChange={e => setViolationId(Number(e.target.value))}>
-        <option>Выберите параметр:</option>
-        <option value={1}>Нарушение 1</option>
-        <option value={2}>Нарушение 2</option>
-        <option value={3}>Нарушение 3</option>
-        <option value={4}>Нарушение 4</option>
-        <option value={5}>Нарушение 5</option>
+          <option value=''>Выбрать</option>
+          {ViolationsVariantsList.map((variant: ViolationVariant) => <option key={variant.id} value={variant.id}>{variant.name}</option>)}
       </select>
       <button onClick={handleViolations}>Добавить</button>
       <div  className='table_cardProfile_form_inner'>

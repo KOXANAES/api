@@ -18,8 +18,8 @@ const Table: FC = () => {
   const [homes, setHomes] = useState<IInspectionCard[]>([])
   const [home, setHome] = useState<IInspectionCard>({} as IInspectionCard)
 
-  const [addModalActive, setAddModalActive] = useState<boolean>(true)
-  const [fillModalActive, setFillModalActive] = useState<boolean>(false)
+  const [addModalActive, setAddModalActive] = useState<boolean>(false)
+  const [fillModalActive, setFillModalActive] = useState<boolean>(true)
   const [profileModalActive, setProfileModalActive] = useState<boolean>(false)
 
   useEffect(() => {
@@ -183,14 +183,15 @@ const Table: FC = () => {
                 <td onClick={() => handleProfile(homes)}>{homes?.adress?.home}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.adress?.apartment}</td>
                 <td 
-                  className={isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'expired' ? 'test1' : 
-                             isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'warning' ? 'warning-class' : 
-                             isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'approaching' ? 'test1' : ''} 
-                  onClick={() => handleProfile(homes)}>
-    {             homes?.inspectionDeadline}
-                </td>           
+  className={homes?.status === 'Посещено' ? '' : 
+              isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'expired' ? 'test1' : 
+              isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'warning' ? 'warning-class' : 
+              isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'approaching' ? 'test1' : ''} 
+  onClick={() => handleProfile(homes)}>
+    {homes?.status === 'Посещено' ?  '' : <p>{homes?.inspectionDeadline}</p>}
+</td>        
                 <td onClick={() => handleProfile(homes)}>{homes?.responsibleWorker}</td>
-                <td onClick={() => handleProfile(homes)}>{homes?.status}</td>
+                <td className={homes?.status === 'Посещено' ? 'highlight__green' : ''} onClick={() => handleProfile(homes)}>{homes?.status}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.category}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.otherInfo}</td>
                 <td><button className='tool_btns_btn btn_change' onClick={() => handleFill(homes)}>Изменить</button></td>
