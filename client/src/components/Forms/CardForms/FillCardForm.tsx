@@ -56,24 +56,10 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
   // подгружаем все возможные нарушения
   const [violationVariants, setViolationVariants] = useState<any>([])
   useEffect(() => {
-    const fetchViolationVariants = async () => {
-      try {
-        const violationsArray = await cardStore.getViolations();
-        setViolationVariants(violationsArray);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchViolationVariants();
+    cardStore.getViolations().then(violations => { 
+      if(violations) {setViolationVariants(violations)}
+    });
   }, []);
-  const ViolationsVariantsList = violationVariants.map((violationVar: ViolationVariant) => {
-    return {
-      id: violationVar.id,
-      name: violationVar.name,
-      description: violationVar.description
-    };
-  });
-
 
   const handleFill = async(id:number) => {
     try { 
@@ -249,7 +235,7 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
       <label>Нарушения:</label>
       <select value={violationId} onChange={e => setViolationId(Number(e.target.value))}>
           <option value=''>Выбрать</option>
-          {/* {ViolationsVariantsList.map((variant: ViolationVariant) => <option key={variant.id} value={variant.id}>{variant.name}</option>)} */}
+          {violationVariants.map((variant: ViolationVariant) => <option key={variant.id} value={variant.id}>{variant.name}</option>)}
       </select>
       <button onClick={handleViolations}>Добавить</button>
       <div  className='table_cardProfile_form_inner'>
