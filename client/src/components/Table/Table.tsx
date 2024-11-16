@@ -10,6 +10,14 @@ import ProfileCardModal from "../Modals/CardModals/ProfileCardModal"
 import FillCardModal from "../Modals/CardModals/FillCardModal"
 import { IUser } from "../../models/IUser";
 
+export interface ViolationVariant { 
+  id: number; 
+  name: string; 
+  description: string
+}
+
+
+
 const Table: FC = () => { 
 
   const {cardStore} = useContext(Context)
@@ -22,24 +30,16 @@ const Table: FC = () => {
   const [fillModalActive, setFillModalActive] = useState<boolean>(false)
   const [profileModalActive, setProfileModalActive] = useState<boolean>(false)
 
-  
   useEffect(() => {
-    cardStore.setFetchingCards(true);
-    console.log(cardStore.fetchingCards)
     cardStore.getCards().then((cards) => {
       if (cards) {setHomes(cards)}
     })
-    cardStore.setFetchingCards(false)
-    console.log(cardStore.fetchingCards)
-  }, [cardStore]);
 
-    // if(cardStore.fetchingCards) { 
-    //   return(
-    //     <div>
-    //       123123333333333333333333333333333333333333333333333
-    //     </div>
-    //   )
-    // }
+  }, [homes]);
+
+
+
+
 
   const handleGetCards = async() => {
     try { 
@@ -221,9 +221,9 @@ const Table: FC = () => {
           <span>Страница {currentPage} из {totalPages}</span>
           <button className={currentPage === totalPages ? 'orange-btn table__pagination-disabled' : 'orange-btn'} onClick={handleNextPage} disabled={currentPage === totalPages}>Вперед</button>
         </div>
-        <AddCardModal usersArr={users} active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/>
-        <ProfileCardModal active={profileModalActive} setActive={setProfileModalActive} setHomes={setHomes} home={home}/>
-        <FillCardModal active={fillModalActive} setActive={setFillModalActive} setHomes={setHomes}  home={home}/>
+        {/* <AddCardModal usersArr={users} active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/> */}
+        {/* <ProfileCardModal active={profileModalActive} setActive={setProfileModalActive} setHomes={setHomes} home={home}/> */}
+        <FillCardModal active={fillModalActive} setActive={setFillModalActive} setHomes={setHomes} home={home}/>
       </main>
     </>
     
