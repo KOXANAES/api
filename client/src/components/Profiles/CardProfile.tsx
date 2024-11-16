@@ -1,33 +1,12 @@
 import './CardProfile.css'
-import { FC, useContext, useState } from 'react'
+import { FC } from 'react'
 import { IInspectionCard } from '../../models/ICardNew';
-import { Context } from '../../main';
 
 interface CardProfile { 
-  setActive: (active: boolean) => void;
-  setHomes: (homes: IInspectionCard[]) => void;
-  home: IInspectionCard
+  home: IInspectionCard;
 }
 
-export interface Resident {
-  name: string;
-  surname: string;
-  paternity: string;
-  birth: string;
-}
-
-export interface Violation {
-  id: number;
-}
-
-const CardProfile:FC<CardProfile> = ({setActive, setHomes, home}) => { 
-
-  const {cardStore} = useContext(Context)
-
-  const [errorMessage, setErrorMessage] = useState(null)
-  
-  console.log(home)
-  
+const CardProfile:FC<CardProfile> = ({home}) => {   
   return(
   <div className='cardProfile'>
     <div className='cardProfile_header'>

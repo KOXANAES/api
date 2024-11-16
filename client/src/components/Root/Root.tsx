@@ -1,9 +1,7 @@
-import { FC } from 'react'
-
-const Root:FC = () => { 
+const Root = () => { 
   return(
     <div>
-      root page
+      root 
     </div>
   )
 }

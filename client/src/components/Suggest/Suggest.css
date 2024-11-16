@@ -78,9 +78,6 @@
   transition: background-color 0.5s;
 }
 
-.error_message {
-  color: red;
-}
 .tech_message {
   color: rgb(58, 152, 116);
 }

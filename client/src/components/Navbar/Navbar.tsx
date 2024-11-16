@@ -9,14 +9,9 @@ import Logo from "../Logo/Logo"
 
 import { ACC_ROUTE, TABLE_ROUTE } from "../../router/Consts";
 
-
 import DefaultModal from "../Modals/Modal/DefaultModal";
 import LoginForm from "../Forms/AuthForms/LoginForm";
 import RegForm from "../Forms/AuthForms/RegForm";
-
-
-
-
 
 const Navbar: FC= () => { 
 
@@ -35,7 +30,6 @@ const Navbar: FC= () => {
     await authStore.logout()
     navigate('/');
   }
-  
 
   const handleActivate = async() => { 
     await authStore.activate(authStore.user.email)

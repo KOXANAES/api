@@ -3,12 +3,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
   height: 100vh;
+  color: var(--orange);
 }
 .spinner_logo { 
   display: flex;
   align-items: center;
+  font-weight: 650;
 }
 #spinner_img { 
   width: 40px;
@@ -16,14 +17,9 @@
 }
 #spinner_name { 
   font-size: 40px;
-  color:rgb(242,114,28);
-  font-family: "Montserrat", sans-serif;
-  font-weight: 650;
 }
 #spinner_load {
   margin-top: 10px;
   font-size: 15px;
-  color:rgb(13,246,155);
-  font-family: "Montserrat", sans-serif;
   font-weight: 650;
 }

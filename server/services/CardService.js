@@ -33,6 +33,29 @@ class CardService {
     return { card }
   }
 
+  async addArray(num, creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner) {
+    const cards = [];
+    for (let i = 0; i < num; i++) {
+      const card = await Card.create({
+        num: i + 1,
+        creationDate,
+        inspectionDeadline,
+        responsibleWorker,
+        otherInfo,
+        category,
+        adress: { city, street, home, apartment },
+        char: { homeType, owner },
+      }, {
+        include: [
+          { model: Char },
+          { model: Adress },
+        ]
+      });
+      cards.push(card);
+    }
+    return { cards };
+  }
+
   async fill(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds, changeStatus, fillDate) { 
     const char = await Char.findOne({where:{id:id}})
     Object.assign(char, {

@@ -26,15 +26,11 @@
   color: red;
 }
 
-profile_list { 
+.profile_list { 
   list-style-type: none;
 }
 .profile_list > li { 
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.edit_img { 
-  width: 17px;
 }

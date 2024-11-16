@@ -29,7 +29,6 @@ const App: FC = () => {
     <>
       <BrowserRouter>
         <Navbar/>
-
         <AppRouter/>
       </BrowserRouter>
     </>

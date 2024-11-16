@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AuthResponce } from "../models/responce/AuthResponse";
-export const API_URL = 'http://localhost:5000'
+export const API_URL = import.meta.env.VITE_API_URL
 
 const $api = axios.create({ 
   withCredentials: true,

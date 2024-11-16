@@ -12,6 +12,16 @@ class DbController {
     }
   }
 
+  async addArray(req,res,next) { 
+    try {
+      const {num, creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner} = req.body
+      const cards = await cardService.addArray(num, creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
+      return res.json(cards)
+    } catch(e) { 
+      next(e)
+    }
+  }
+
   async fill(req,res,next) { 
     try {
       const {id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds, changeStatus, fillDate} = req.body

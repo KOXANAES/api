@@ -1,7 +1,18 @@
- import CardService from "../services/CardService";
+import CardService from "../services/CardService";
 import { Resident, Violation } from "../components/Forms/CardForms/FillCardForm";
+import { makeAutoObservable } from "mobx";
 
 export default class CardStore {
+
+  fetchingCards = false
+
+  constructor() { 
+    makeAutoObservable((this))
+  }
+
+  setFetchingCards(bool:boolean) { 
+    this.fetchingCards = bool
+  }
 
   async addCard(creationDate:Date, inspectionDeadline: Date, responsibleWorker: string, otherInfo: string, city: string, street: string, home: string, apartment: string, homeType: string, category: string, owner: string) { 
     try { 
@@ -48,11 +59,11 @@ export default class CardStore {
     try { 
       const response = await CardService.fetchCards()
       const cards = response.data
-      console.log(cards)
+      // console.log(cards)
       return cards
     } catch(e) { 
       console.log(e)
-    } 
+    }
   }   
 
   async getViolations() { 

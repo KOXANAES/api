@@ -68,3 +68,22 @@ body {
 .error_message {
   color: red;
 }
+
+
+.my__select { 
+  font-family: 'Montserrat';
+  font-weight: 750;
+  font-size: 14px;
+  background-color: transparent;
+  border: 0;
+  color: var(--orange);
+  min-width: 100px;
+  width:fit-content;
+}
+.my__select:hover { 
+  color: var(--orangeSelected);
+}
+.my__select__option {
+  background-color: var(--themeColor1); 
+  color: inherit;
+}

@@ -19,18 +19,27 @@ const Table: FC = () => {
   const [home, setHome] = useState<IInspectionCard>({} as IInspectionCard)
 
   const [addModalActive, setAddModalActive] = useState<boolean>(false)
-  const [fillModalActive, setFillModalActive] = useState<boolean>(true)
+  const [fillModalActive, setFillModalActive] = useState<boolean>(false)
   const [profileModalActive, setProfileModalActive] = useState<boolean>(false)
 
+  
   useEffect(() => {
+    cardStore.setFetchingCards(true);
+    console.log(cardStore.fetchingCards)
     cardStore.getCards().then((cards) => {
-      if (cards) {
-        setHomes(cards);
-        console.log(cards)
-      }
-    }
-  )
-  }, []);
+      if (cards) {setHomes(cards)}
+    })
+    cardStore.setFetchingCards(false)
+    console.log(cardStore.fetchingCards)
+  }, [cardStore]);
+
+    // if(cardStore.fetchingCards) { 
+    //   return(
+    //     <div>
+    //       123123333333333333333333333333333333333333333333333
+    //     </div>
+    //   )
+    // }
 
   const handleGetCards = async() => {
     try { 
@@ -136,6 +145,12 @@ const Table: FC = () => {
     return 'normal';
 };
 
+  const resetFilters = async() => { 
+    setSelectedResponsible('');
+    setSelectedCategory('')
+    console.log(selectedResponsible)
+  }
+
 
   return( 
     <>
@@ -153,26 +168,27 @@ const Table: FC = () => {
               <th>Квартира</th>
               <th>Обследовать до</th>
               <th>
-                Ответственный
-              <select className="table_forms_input" id="category_inp" value={selectedResponsible} onChange={handleResponsibleChange}>
-                <option value=''>Выбрать</option>
-                {users.map((user, index) => (<option value={user.nickname} key={index}>{user.nickname}</option>))}
-              </select>
+                Инспектор:
+                <select className='my__select' value={selectedResponsible} onChange={handleResponsibleChange}>
+                  <option className='my__select__option' value=''> Выбрать</option>
+                  {users.map((user, index) => (<option className='my__select__option' value={user.nickname} key={index}>{user.nickname}</option>))}
+                </select>
               </th>
               <th>Статус</th>
               <th>
-                Категория
-                <select value={selectedCategory} onChange={handleCategoryChange}>
-                  <option value="">Все</option>
-                  <option value="Одинокий">Одинокий</option>
-                  <option value="Одиноко проживающий">Одиноко проживающий</option>
-                  <option value="Инвалид">Инвалид</option>
-                  <option value="1-2 ребёнка">Семья, воспитывающая 1-2 ребёнка</option>
-                  <option value="Многодетная">Многодетная семья</option>
-                  <option value="Иные">Иные</option>
+                Категория:
+                <select className='my__select' value={selectedCategory} onChange={handleCategoryChange}>
+                  <option className='my__select__option' value=''> Выбрать</option>
+                  <option className='my__select__option' value="Одинокий">Одинокий</option>
+                  <option className='my__select__option' value="Одиноко проживающий">Одиноко проживающий</option>
+                  <option className='my__select__option' value="Инвалид">Инвалид</option>
+                  <option className='my__select__option' value="1-2 ребёнка">Семья, воспитывающая 1-2 ребёнка</option>
+                  <option className='my__select__option' value="Многодетная">Многодетная семья</option>
+                  <option className='my__select__option' value="Иные">Иные</option>
                 </select>
               </th>
               <th>Дополнительно</th>
+              <th><button className='green-btn' onClick={() => resetFilters()}>Очистить фильтр</button></th>
             </tr>
           </thead>
           <tbody>
