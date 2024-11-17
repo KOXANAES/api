@@ -30,13 +30,27 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
 
   const [errorMessage, setErrorMessage] = useState(null)
 
+  const formatDate = (date: any) => { 
+    if (!date) {
+      return '';
+    }
+    const formattedDate = date.split('.')[0];
+    return formattedDate;
+  }
+
   const handleAdd = async() => { 
     const creationDate = new Date()
     try { 
       await cardStore.addCard(creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
       await cardStore.getCards().then((cards) => {
         if (cards) {
-          setHomes(cards);
+          const updatedCards = cards.map(card => ({
+            ...card,
+            formattedInspectionDate: formatDate(card.inspectionDate),
+            formattedCreationDate: formatDate(card.creationDate),     
+            formattedInspectionDeadline: formatDate(card.inspectionDeadline)
+          }));
+          setHomes(updatedCards);
         }
       })
       setErrorMessage(null)

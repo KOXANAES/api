@@ -11,6 +11,9 @@ export interface IInspectionCard {
   adress: IAddress;
   residents: IResident[];
   violations: IViolation[];
+  formattedInspectionDate: string
+  formattedCreationDate: string
+  formattedInspectionDeadline: string
 }
 
 interface ICharacteristics {

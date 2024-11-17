@@ -67,10 +67,9 @@ export default class CardStore {
   }   
 
   async getViolations() { 
-    try { 
+    try {
       const response = await CardService.fetchViolations()
       const violations = response.data
-      console.log(violations)
       return violations
     } catch(e) { 
       console.log(e)

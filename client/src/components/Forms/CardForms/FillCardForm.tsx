@@ -61,6 +61,14 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
     });
   }, []);
 
+  const formatDate = (date: any) => { 
+    if (!date) {
+      return '';
+    }
+    const formattedDate = date.split('.')[0];
+    return formattedDate;
+  }
+
   const handleFill = async(id:number) => {
     try { 
       const changeStatus = 'Посещено'
@@ -68,7 +76,15 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
       await cardStore.fillCard(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violations, changeStatus, fillDate)
       await cardStore.getCards().then((cards) => {
         if (cards) {
-          setHomes(cards);
+          const updatedCards = cards.map(card => ({
+            ...card,
+            formattedInspectionDate: formatDate(card.inspectionDate),
+            formattedCreationDate: formatDate(card.creationDate),     
+            formattedInspectionDeadline: formatDate(card.inspectionDeadline)
+          }));
+    
+          setHomes(updatedCards);
+          console.log(updatedCards);
         }
       })
       setErrorMessage(null)
@@ -109,11 +125,11 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
     <div className='table_cardProfile_creation'>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='creationDate_inp_fill'>Дата создания:</label>
-        <p>{homeProps.creationDate}</p>
+        <p>{homeProps.formattedCreationDate}</p>
       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='inspectionDeadline_inp_fill'>Срок проверки:</label>
-        <p>{homeProps.inspectionDeadline}</p>
+        <p>{homeProps.formattedInspectionDeadline}</p>
       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='responsibleWorker_inp_fill'>Ответственный работник:</label>
@@ -121,7 +137,7 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='inspectionDate_inp_fill'>Проверено:</label>
-        <p>{homeProps.inspectionDate}</p>
+        <p>{homeProps.formattedInspectionDate}</p>
       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='status_inp_fill'>Статус:</label>

@@ -11,14 +11,18 @@ main {
   color: white;
 }
 header { 
-  position: fixed;
   display: flex;
   flex-direction: row;
-  bottom: 0;
-  right: 0;
-  text-align: center;
-  font-size: 16px;
+  justify-content: space-between;
+  align-items: center;
 }
+header > div { 
+  display: flex;
+  align-items: center;
+}
+
+
+
 .tool_btns_btn_down { 
   background-color: rgb(242,114,28);
   padding: 5px 10px;
@@ -94,4 +98,17 @@ header {
 
 .highlight__green { 
   background-color: green;
+}
+
+
+@media screen and (max-width: 480px) {
+  main { 
+    flex-direction: column;
+  }
+}
+
+.table__onload__message {
+  margin: 15px; 
+  font-size: 20px;
+  color: var(--orange);
 }

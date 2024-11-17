@@ -16,8 +16,6 @@ export interface ViolationVariant {
   description: string
 }
 
-
-
 const Table: FC = () => { 
 
   const {cardStore} = useContext(Context)
@@ -30,21 +28,50 @@ const Table: FC = () => {
   const [fillModalActive, setFillModalActive] = useState<boolean>(false)
   const [profileModalActive, setProfileModalActive] = useState<boolean>(false)
 
+  const formatDate = (date: any) => { 
+    if (!date) {return ''}
+    const formattedDate = date.split('.')[0]
+    return formattedDate
+  }
+
+  let [tableOnLoad, setTableOnLoad] = useState<boolean>(false)
+
   useEffect(() => {
-    cardStore.getCards().then((cards) => {
-      if (cards) {setHomes(cards)}
-    })
+    const fetchData = async () => {
+      setTableOnLoad(true);
+      try {
+        const cards = await cardStore.getCards();
+        if (cards) {
+          const updatedCards = cards.map(card => ({
+            ...card,
+            formattedInspectionDate: formatDate(card.inspectionDate),
+            formattedCreationDate: formatDate(card.creationDate),     
+            formattedInspectionDeadline: formatDate(card.inspectionDeadline)
+          }));
+          setHomes(updatedCards);
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setTableOnLoad(false);
+      }
+    };
 
-  }, [homes]);
-
-
-
-
+    fetchData();
+  }, []);
 
   const handleGetCards = async() => {
     try { 
       await cardStore.getCards()
-      .then((cards) => {if(cards) {setHomes(cards)}})  
+      .then((cards) => {if(cards) if (cards) {
+        const updatedCards = cards.map(card => ({
+          ...card,
+          formattedInspectionDate: formatDate(card.inspectionDate),
+          formattedCreationDate: formatDate(card.creationDate),     
+          formattedInspectionDeadline: formatDate(card.inspectionDeadline)
+        }));
+        setHomes(updatedCards);
+      }})  
     } catch(e) { 
       alert(e)
     } 
@@ -64,55 +91,65 @@ const Table: FC = () => {
     try { 
       await cardStore.deleteCard(home.id)
         .then(() => cardStore.getCards()
-        .then((cards) => {if(cards) {setHomes(cards)}}))
+        .then((cards) => {if (cards) {
+          const updatedCards = cards.map(card => ({
+            ...card,
+            formattedInspectionDate: formatDate(card.inspectionDate),
+            formattedCreationDate: formatDate(card.creationDate),     
+            formattedInspectionDeadline: formatDate(card.inspectionDeadline)
+          }));
+          setHomes(updatedCards);
+        }}))
     } catch(e) { 
       alert(e)
     }
   }
 
-    // получаем список тех, кому можно делегировать форму
-    const [users, setUsers] = useState<IUser[]>([])
-    useEffect(() => {
-      const fetchUsers = async () => {
-        try {
-          const userArray = await authStore.getUsers()
-          const filteredUsers = userArray.map((userArray: { nickname: any; }) => ({
-            nickname: userArray.nickname,
-          }));
-          setUsers(filteredUsers)
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchUsers();
-     }, []);
+  // получаем список тех, кому можно делегировать форму
+  const [users, setUsers] = useState<IUser[]>([])
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const userArray = await authStore.getUsers()
+        const filteredUsers = userArray.map((userArray: { nickname: any; }) => ({
+          nickname: userArray.nickname,
+        }));
+        setUsers(filteredUsers)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUsers();
+    }, []);
 
 
-  // category filter 
+  // filters
   const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [selectedResponsible, setSelectedResponsible] = useState<string>('');
+  const [selectedStatus, setSelectedStatus] = useState<string>('');
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(event.target.value)
     setCurrentPage(1)
   }
-  // responsible filter
-  const [selectedResponsible, setSelectedResponsible] = useState<string>('');
   const handleResponsibleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedResponsible(event.target.value);
     setCurrentPage(1);
   };
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStatus(event.target.value);
+    setCurrentPage(1);
+  };
 
-
-
+  // пагинация + фильтра + задаём кол-во карточек на странице
   const filteredHomes = homes.filter(home => {
     const categoryMatch = selectedCategory ? home.category === selectedCategory : true;
     const responsibleMatch = selectedResponsible ? home.responsibleWorker === selectedResponsible : true;
-    return categoryMatch && responsibleMatch;
+    const statusMatch = selectedStatus ? home.status === selectedStatus : true;
+    return categoryMatch && responsibleMatch && statusMatch;
   });
 
-
-  // pagination
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const itemsPerPage = 10
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
 
   const totalPages = Math.ceil(filteredHomes.length / itemsPerPage);
 
@@ -120,17 +157,13 @@ const Table: FC = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredHomes.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
-    }
-  }
+  const handleSetItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => { 
+    const selectedValue = Number(event.target.value);
+    setItemsPerPage(selectedValue);
+  };
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
-    }
-  }
+  const handleNextPage = () => {if (currentPage < totalPages) {setCurrentPage(currentPage + 1)}}
+  const handlePrevPage = () => {if (currentPage > 1) {setCurrentPage(currentPage - 1)}}
   
   const isInspectionDeadlineApproaching = (creationDate: Date, inspectionDeadline: Date) => {
     const creationDateObj = new Date(creationDate);
@@ -143,7 +176,7 @@ const Table: FC = () => {
     if (daysDifference < 3) return 'approaching';
     if (daysDifference < 5) return 'warning';
     return 'normal';
-};
+    };
 
   const resetFilters = async() => { 
     setSelectedResponsible('');
@@ -151,13 +184,27 @@ const Table: FC = () => {
     console.log(selectedResponsible)
   }
 
-
   return( 
     <>
       <main>
         <header>
-            <button className='tool_btns_btn_down' onClick={handleGetCards}>Обновить</button>
-            <button className='tool_btns_btn_down' onClick={() => setAddModalActive(true)}>Добавить</button>
+          <div>
+            <div><button className='orange-btn' onClick={handleGetCards}>Обновить</button></div>
+            <div><button className='orange-btn' onClick={() => setAddModalActive(true)}>Добавить</button></div>
+          </div>
+          <div>
+            <p>
+              Выведено адресов: <span className='accent__orange'>{filteredHomes.length}.</span>
+              Показывать по:
+                <select className='my__select' value={itemsPerPage} onChange={handleSetItemsPerPage}>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                  <option value={homes.length}>Все</option>
+                </select>
+            </p>
+          </div>
         </header>
         <table className='main_table'>
           <thead>
@@ -174,7 +221,14 @@ const Table: FC = () => {
                   {users.map((user, index) => (<option className='my__select__option' value={user.nickname} key={index}>{user.nickname}</option>))}
                 </select>
               </th>
-              <th>Статус</th>
+              <th>
+                Статус:
+                <select className='my__select' value={selectedStatus} onChange={handleStatusChange}>
+                  <option className='my__select__option' value=''>Выбрать</option>
+                  <option className='my__select__option' value="Посещено">Посещено</option>
+                  <option className='my__select__option' value="Не посещено">Не посещено</option>
+                </select>
+              </th>
               <th>
                 Категория:
                 <select className='my__select' value={selectedCategory} onChange={handleCategoryChange}>
@@ -187,42 +241,52 @@ const Table: FC = () => {
                   <option className='my__select__option' value="Иные">Иные</option>
                 </select>
               </th>
-              <th>Дополнительно</th>
               <th><button className='green-btn' onClick={() => resetFilters()}>Очистить фильтр</button></th>
             </tr>
           </thead>
-          <tbody>
-            {currentItems.map(homes =>
-              <tr className='main_table_cards' key={homes.id}>  
-                <td onClick={() => handleProfile(homes)}>{homes?.adress?.city}</td>
-                <td onClick={() => handleProfile(homes)}>{homes?.adress?.street}</td>
-                <td onClick={() => handleProfile(homes)}>{homes?.adress?.home}</td>
-                <td onClick={() => handleProfile(homes)}>{homes?.adress?.apartment}</td>
-                <td 
-  className={homes?.status === 'Посещено' ? '' : 
-              isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'expired' ? 'test1' : 
-              isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'warning' ? 'warning-class' : 
-              isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'approaching' ? 'test1' : ''} 
-  onClick={() => handleProfile(homes)}>
-    {homes?.status === 'Посещено' ?  '' : <p>{homes?.inspectionDeadline}</p>}
-</td>        
-                <td onClick={() => handleProfile(homes)}>{homes?.responsibleWorker}</td>
-                <td className={homes?.status === 'Посещено' ? 'highlight__green' : ''} onClick={() => handleProfile(homes)}>{homes?.status}</td>
-                <td onClick={() => handleProfile(homes)}>{homes?.category}</td>
-                <td onClick={() => handleProfile(homes)}>{homes?.otherInfo}</td>
-                <td><button className='tool_btns_btn btn_change' onClick={() => handleFill(homes)}>Изменить</button></td>
-                <td><button className='tool_btns_btn btn_delete' onClick={() => handleDelete(homes)}>Удалить</button></td>
-              </tr>
-            )}
-          </tbody>
+          
+            {tableOnLoad ? 
+              <tbody> 
+                <tr>
+                  <td colSpan={10}><p className='table__onload__message'>Загружаю учётные формы!</p></td>
+                </tr>
+              </tbody>
+              
+            
+            : 
+            <tbody>
+              {currentItems.map(homes =>
+                <tr className='main_table_cards' key={homes.id}>  
+                  <td onClick={() => handleProfile(homes)}>{homes?.adress?.city}</td>
+                  <td onClick={() => handleProfile(homes)}>{homes?.adress?.street}</td>
+                  <td onClick={() => handleProfile(homes)}>{homes?.adress?.home}</td>
+                  <td onClick={() => handleProfile(homes)}>{homes?.adress?.apartment}</td>
+                  <td className={homes?.status === 'Посещено' ? '' : 
+                        isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'expired' ? 'test1' : 
+                        isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'warning' ? 'warning-class' : 
+                      isInspectionDeadlineApproaching(homes?.creationDate, homes?.inspectionDeadline) === 'approaching' ? 'test1' : ''} 
+                      onClick={() => handleProfile(homes)}>
+                    {homes?.status === 'Посещено' ?  '' : <p>{homes?.formattedInspectionDeadline}</p>}
+                  </td>        
+                  <td onClick={() => handleProfile(homes)}>{homes?.responsibleWorker}</td>
+                  <td className={homes?.status === 'Посещено' ? 'highlight__green' : ''} onClick={() => handleProfile(homes)}>{homes?.status}</td>
+                  <td onClick={() => handleProfile(homes)}>{homes?.category}</td>
+                  <td><button className='tool_btns_btn btn_change' onClick={() => handleFill(homes)}>Изменить</button></td>
+                  <td><button className='tool_btns_btn btn_delete' onClick={() => handleDelete(homes)}>Удалить</button></td>
+                </tr>
+              )}
+            </tbody>
+            }
+            
+          
         </table>
         <div className="table__pagination">
           <button className={currentPage === 1 ? 'orange-btn table__pagination-disabled' : 'orange-btn'} onClick={handlePrevPage} disabled={currentPage === 1}>Назад</button>
           <span>Страница {currentPage} из {totalPages}</span>
           <button className={currentPage === totalPages ? 'orange-btn table__pagination-disabled' : 'orange-btn'} onClick={handleNextPage} disabled={currentPage === totalPages}>Вперед</button>
         </div>
-        {/* <AddCardModal usersArr={users} active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/> */}
-        {/* <ProfileCardModal active={profileModalActive} setActive={setProfileModalActive} setHomes={setHomes} home={home}/> */}
+        <AddCardModal usersArr={users} active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/>
+        <ProfileCardModal active={profileModalActive} setActive={setProfileModalActive} setHomes={setHomes} home={home}/>
         <FillCardModal active={fillModalActive} setActive={setFillModalActive} setHomes={setHomes} home={home}/>
       </main>
     </>

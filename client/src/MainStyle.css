@@ -26,7 +26,6 @@ body {
 
 .orange-btn {
   background-color: transparent;
-  margin: 0px 5px;
   padding: 5px 10px;
   border: 1px solid var(--orange);
   font-size: 12px;
@@ -77,8 +76,6 @@ body {
   background-color: transparent;
   border: 0;
   color: var(--orange);
-  min-width: 100px;
-  width:fit-content;
 }
 .my__select:hover { 
   color: var(--orangeSelected);
@@ -86,4 +83,8 @@ body {
 .my__select__option {
   background-color: var(--themeColor1); 
   color: inherit;
+}
+
+.accent__orange { 
+  color: var(--orange)
 }

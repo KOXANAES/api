@@ -16,10 +16,10 @@ const CardProfile:FC<CardProfile> = ({home}) => {
     <div className='cardProfile_creation'>
       {home && (
         <ul className='profile_list'>
-          <li>Дата создания: {home.creationDate}</li>
-          <li>Срок проверки: {home.inspectionDeadline}</li>
+          <li>Дата создания: {home.formattedCreationDate}</li>
+          <li>Срок проверки: {home.formattedInspectionDeadline}</li>
           <li>Ответственный работник: {home.responsibleWorker}</li>
-          <li>Проверено: {home.inspectionDate}</li>
+          <li>Проверено: {home.formattedInspectionDate}</li>
           <li>Статус: {home.status}</li>
         </ul>
       )}
