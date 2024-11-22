@@ -29,7 +29,7 @@ const SuggestForm:FC<SuggestForm> = ({active, setActive}) => {
   return(
     <div className={active ? 'suggestForm active' : 'suggestForm'} onClick={() => setActive(false)}>
       <div className={active ? 'suggestForm_content active' : 'suggestForm_content'} onClick={e => e.stopPropagation()}>
-          <p id='tech_header'>
+          <p>
             <span id='tech_header_username'>{authStore.user.nickname}</span>, если Вы обнаружили сбои в работе приложения, некорректные ответы сервисов, 
             или же у Вас есть предложения по улучшению и развитию проекта, свяжитеcь с технической поддержкой сайта. 
             Ваша обратная связь очень важна для нас!

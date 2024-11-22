@@ -12,9 +12,6 @@ const MySpinner = () => {
         <div id='spinner_load'>Загрузка приложения...</div><div className="table__onload__message TestSpinner"></div>
       </div>
     </div>
-    // <div>
-    //   <img id='spinner_img' src={logo} alt='Загрузка...'/>
-    // </div>
   )
 }
 

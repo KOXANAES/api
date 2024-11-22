@@ -43,22 +43,18 @@
   background-color: transparent;
   border: none;
   color:white;
-  border-bottom: 2px solid rgb(13,246,155);
+  border-bottom: 2px solid var(--green);
   font-weight: 480;
   resize: none;
 }
 #tech_header_username { 
-  color: rgb(13,246,155);
+  color: var(--green);
 }
  
 .message_input:focus { 
   outline: 0;
   box-shadow:  0px 0px 0px rgb(242,114,28), 0 0 1px inset;
 } 
-
-#tech_header { 
-  color: white;
-}
 
 .send_suggest_btn {
   margin: 30px; 
@@ -68,7 +64,7 @@
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   transition: .25s;
-  background-color:rgb(13,246,155);
+  background-color: var(--green);
 
 }
 .send_suggest_btn:hover {
@@ -79,11 +75,5 @@
 }
 
 .tech_message {
-  color: rgb(58, 152, 116);
-}
-
-@media only screen and (max-width:768px) {
-  .suggestForm_content { 
-    border: 1px solid rgb(58, 152, 116);
-  }
+  color: var(--green);
 }

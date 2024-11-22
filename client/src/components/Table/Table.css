@@ -24,15 +24,14 @@ header > div {
 .tool_btns_btn { 
   background-color: transparent;
   padding: 5px 10px;
-  border: 1px solid rgb(242,114,28);
-  font-size: 12px;
+  border: 1px solid var(--orange);
   color: white;
   width: 100%;
-  transition: .1s;
+  transition: .25s;
   text-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
 }
 .tool_btns_btn:hover { 
-  background-color: rgb(242,114,28);
+  background-color: var(--orange);
 }
 .btn_change, 
 .btn_delete {
@@ -42,15 +41,14 @@ header > div {
 .main_table {
   border-collapse: collapse;
 }
-.main_table tr td:nth-child(4),
-.main_table tr td:nth-child(10) {
-  border-right: 1px solid #ccc;
+.main_table tr td:nth-child(8) {
+  border-right: 1px solid var(--pale_white);
 }
 .main_table > tbody > tr > td { 
   text-align: center;
 } 
 .main_table > tbody > tr:hover { 
-  background-color: rgba(187, 187, 187, 0.623);
+  background-color: var(--gray);
 }
 .main_table_cards:nth-child(odd) { 
   background-color: rgba(255, 255, 255, 0.1);
@@ -67,7 +65,6 @@ header > div {
 .table__pagination-disabled { 
   border: 1px solid red;
   cursor: default;
-
 }
 .table__pagination-disabled:hover { 
   background-color: transparent;
@@ -85,13 +82,6 @@ header > div {
   background-color: green;
 }
 
-
-@media screen and (max-width: 480px) {
-  main { 
-    flex-direction: column;
-  }
-}
-
 .table__onload__message {
   display: flex;
   align-items: center;
@@ -105,12 +95,6 @@ header > div {
   animation-iteration-count: infinite; 
 }
 
-@keyframes burning {
-  0% {border: 1px solid rgba(242,114,28, 0)}
-  33% {border: 1px solid rgba(242,114,28, 1); filter: brightness(200%);}
-  66% {bborder: 1px solid rgba(242,114,28, 0)}
-}
-
 .TestSpinner { 
   width:30px;
   height: 30px;
@@ -120,11 +104,13 @@ header > div {
   animation: spin 1s linear infinite;
 }
 
+@keyframes burning {
+  0% {border: 1px solid rgba(242,114,28, 0)}
+  33% {border: 1px solid rgba(242,114,28, 1); filter: brightness(200%);}
+  66% {bborder: 1px solid rgba(242,114,28, 0)}
+}
+
 @keyframes spin {
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(360deg);
-  }
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
 }
