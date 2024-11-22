@@ -32,7 +32,12 @@ const LoginForm: FC<ModalProps> = ({setActive, changeForm, handleChangeForm}) =>
       setActive(false)
       navigate(TABLE_ROUTE);
     } catch(e:any) { 
-      setErrorMessage(e.response?.data?.message)
+      if(e.response.data.errors != 0) { 
+        const errorMessages = e.response?.data?.errors.map((error:any) => error.msg )
+        setErrorMessage(errorMessages.join(' '))
+      } else {
+        setErrorMessage(e.response?.data?.message)
+      }
     }
   }
 

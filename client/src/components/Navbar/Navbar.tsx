@@ -19,7 +19,7 @@ const Navbar: FC= () => {
 
   const navigate = useNavigate();
 
-  const [defaultModalActive, setDefautModalActive] = useState<boolean>(true)
+  const [defaultModalActive, setDefautModalActive] = useState<boolean>(false)
   const [changeForm, setChangeForm] = useState(false)
 
   const handleChangeForm = async() => { 

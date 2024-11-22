@@ -50,8 +50,10 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
   const [violations, setViolation] = useState<Violation[]>([])
 
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+  const [violationErrorMessage, setViolationErrorMessage] = useState<string | null>(null)
+  const [residentsErrorMessage, setResidentsErrorMessage] = useState<string | null>(null)
 
   // подгружаем все возможные нарушения
   const [violationVariants, setViolationVariants] = useState<any>([])
@@ -73,6 +75,11 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
     try { 
       const changeStatus = 'Посещено'
       const fillDate = new Date()
+      if(!fillDate || !rooms || !APIs || !faultyAPIs || !noBatteryAPIs || !ovens || !faultyOvens || !repairNeededOvens || !residents || !violations || !changeStatus) {
+        const test = 'Не все необходимые поля формы заполнены'
+        setErrorMessage(test)
+        return
+      }
       await cardStore.fillCard(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violations, changeStatus, fillDate)
       await cardStore.getCards().then((cards) => {
         if (cards) {
@@ -90,11 +97,29 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
       setErrorMessage(null)
       setActive(false)
     } catch(e:any) { 
-      setErrorMessage(e.response?.data?.message)
-    }
+      if(e.response.data.errors != 0) { 
+        const errorMessages = e.response?.data?.errors.map((error:any) => error.msg )
+        setErrorMessage(errorMessages.join(' '))
+      } else {
+        setErrorMessage(e.response?.data?.message)
+      }
+    } 
   }
 
   const handleResidents = async() => { 
+    if(residents.length >= 14) { 
+      setResidentsErrorMessage('15 проживающих по одному адресу человек - предельно допустимое количество')
+      return
+    }
+    if(!name || !surname || !paternity || !birth) { 
+      setResidentsErrorMessage('Укажите имя и фамилию перед добавлением проживающего!')
+      return
+    }
+    const allowedSymbols = /^[А-Яа-яЁё]+$/;
+    if (!allowedSymbols.test(name) || !allowedSymbols.test(surname) || !allowedSymbols.test(paternity)) {
+      setResidentsErrorMessage('Имя, фамилия и отчество могут содержать только кириллицу, цифры, запятые и тире.');
+      return;
+    }
     const newResident = {
       name,
       surname,
@@ -106,14 +131,19 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
     setSurname('');
     setPaternity('');
     setBirth('');
+    setResidentsErrorMessage(null)
   }
 
-  const handleViolations = async() => {
+  const handleViolations = async () => {
     if (violationId !== undefined) {
-      const newViolation: Violation = { id: violationId };
-      setViolation([...violations, newViolation]);
-    } else {
-      alert("Выберите нарушение");
+      const existingViolation = violations.find(violation => violation.id === violationId);
+      if (!existingViolation) {
+        const newViolation: Violation = { id: violationId };
+        setViolation([...violations, newViolation]);
+        setViolationErrorMessage(null)
+      } else {
+        setViolationErrorMessage('Невозможно добавить 2 одинаковых нарушения!')
+      }
     }
   }
 
@@ -231,7 +261,8 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
             <li key={index}>{resident.name} {resident.surname} {resident.paternity}, {resident.birth}</li>
           ))}
         </ul>
-      </div>
+          {residentsErrorMessage ? <p className='error_message'>{residentsErrorMessage}</p> : ''}
+       </div>
       <div  className='table_cardProfile_form_inner'>
         <label htmlFor='category_inp_fill'>Категория:</label>
         { homeProps && homeProps.char && homeProps.adress && ( 
@@ -261,9 +292,13 @@ const FillCardForm: FC<FillCardProps> = ({setActive, setHomes, homeProps}) => {
           ))}
         </ul>
       </div>
+      {violationErrorMessage ? <p className='error_message'>{violationErrorMessage}</p> : ''}
     </div>
     <div className='table_cardProfile_addForm'>
       <button className='orange-btn' onClick = {() => handleFill(homeProps.id)}>Добавить</button>
+    </div>
+    <div className='table_profile_error'>
+      {errorMessage ? <p className='error_message'>{errorMessage}</p> : ''}
     </div>
   </div>
   )

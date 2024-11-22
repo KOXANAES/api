@@ -10,7 +10,6 @@ interface AddCardFormProps {
   setActive: (active: boolean) => void;
   setHomes: (homes: IInspectionCard[]) => void;
   usersArr: IUser[];
-
 }
 
 const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
@@ -28,7 +27,7 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
   const [category, setCategory] = useState<string>('')
   const [owner, setOwner] = useState<string>('')
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const formatDate = (date: any) => { 
     if (!date) {
@@ -41,6 +40,11 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
   const handleAdd = async() => { 
     const creationDate = new Date()
     try { 
+      if(!creationDate || !inspectionDeadline || !responsibleWorker || !otherInfo || !city || !street || !home || !apartment || !homeType || !category || !owner) {
+        const test = 'Не все необходимые поля формы заполнены'
+        setErrorMessage(test)
+        return
+      }
       await cardStore.addCard(creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
       await cardStore.getCards().then((cards) => {
         if (cards) {
@@ -56,7 +60,12 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
       setErrorMessage(null)
       setActive(false)
     } catch(e:any) { 
-      setErrorMessage(e.response?.data?.message)
+      if(e.response.data.errors != 0) { 
+        const errorMessages = e.response?.data?.errors.map((error:any) => error.msg )
+        setErrorMessage(errorMessages.join(' '))
+      } else {
+        setErrorMessage(e.response?.data?.message)
+      }
     }
   }
 
@@ -80,6 +89,8 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
     <div className='table_cardProfile'>
     <div className='table_cardProfile_header'>
       <h1>Создать учетную форму</h1>
+      <p><i>Обратие внимание, что все поля учётной формы, кроме "квартира", "иные сведения", не являются обязательными</i></p>
+      <p><i>для заполнения допускается использовать только цифры 0-9 и буквы алфавита (Аа-Яя)</i></p>
     </div>
     <div className='table_cardProfile_creation'>
       <div  className='table_cardProfile_form_inner'>
@@ -140,6 +151,9 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
     </div>
     <div className='table_cardProfile_addForm'>
       <button className='orange-btn' onClick = {handleAdd}>Добавить</button>
+    </div>
+    <div className='table_profile_error'>
+      {errorMessage ? <p className='error_message'>{errorMessage}</p> : ''}
     </div>
   </div>
   )

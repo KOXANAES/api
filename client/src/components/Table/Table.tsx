@@ -198,6 +198,8 @@ const Table: FC = () => {
   const resetFilters = async() => { 
     setSelectedResponsible('');
     setSelectedCategory('')
+    setSelectedStatus('')
+    setSelectedCity('')
     console.log(selectedResponsible)
   }
 
@@ -250,24 +252,24 @@ const Table: FC = () => {
               <th><div>Квартира</div></th>
               <th><div>Обследовать до</div></th>
               <th>
-              <div>Инспектор:
+              <div>
                 <select className='my__select' value={selectedResponsible} onChange={handleResponsibleChange}>
-                  <option className='my__select__option' value=''> Выбрать</option>
+                  <option className='my__select__option' value=''>Инспектор (все)</option>
                   {users.map((user, index) => (<option className='my__select__option' value={user.nickname} key={index}>{user.nickname}</option>))}
                 </select></div>
               </th>
               <th>
-              <div>Статус:
+              <div>
                 <select className='my__select' value={selectedStatus} onChange={handleStatusChange}>
-                  <option className='my__select__option' value=''>Выбрать</option>
+                  <option className='my__select__option' value=''>Статус (все)</option>
                   <option className='my__select__option' value="Посещено">Посещено</option>
                   <option className='my__select__option' value="Не посещено">Не посещено</option>
                 </select></div>
               </th>
               <th>
-              <div>Категория:
+              <div>
                 <select className='my__select' value={selectedCategory} onChange={handleCategoryChange}>
-                  <option className='my__select__option' value=''> Выбрать</option>
+                  <option className='my__select__option' value=''>Категория (все)</option>
                   <option className='my__select__option' value="Одинокий">Одинокий</option>
                   <option className='my__select__option' value="Одиноко проживающий">Одиноко проживающий</option>
                   <option className='my__select__option' value="Инвалид">Инвалид</option>

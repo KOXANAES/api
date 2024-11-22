@@ -14,7 +14,7 @@
   background-color: transparent;
   border: none;
   color:white;
-  border-bottom: 2px solid rgb(242,114,28);
+  border-bottom: 2px solid var(--orange);
   font-weight: 480;
   font-size: 12px;
 

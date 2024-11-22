@@ -1,9 +1,15 @@
+const ApiError = require('../exceptions/ApiError')
 const cardService = require('../services/CardService')
 
-class DbController { 
+const {validationResult} = require('express-validator')
 
+class DbController { 
   async add(req,res,next) { 
     try {
+      const errors = validationResult(req)
+      if(!errors.isEmpty()) { 
+        return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
+      }
       const {creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner} = req.body
       const card = await cardService.add(creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner)
       return res.json(card)
@@ -11,7 +17,6 @@ class DbController {
       next(e)
     }
   }
-
   async addArray(req,res,next) { 
     try {
       const {num, creationDate, inspectionDeadline, responsibleWorker, otherInfo, city, street, home, apartment, homeType, category, owner} = req.body
@@ -21,9 +26,12 @@ class DbController {
       next(e)
     }
   }
-
   async fill(req,res,next) { 
     try {
+      const errors = validationResult(req)
+      if(!errors.isEmpty()) { 
+        return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
+      }
       const {id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds, changeStatus, fillDate} = req.body
       console.log(id)
       const card = await cardService.fill(id, rooms, APIs, faultyAPIs, noBatteryAPIs, ovens, faultyOvens, repairNeededOvens, residents, violationIds, changeStatus, fillDate)
@@ -32,7 +40,6 @@ class DbController {
       next(e)
     }
   }
-
   async addViolation(req,res,next) {
     try { 
       const {name, description} = req.body
@@ -42,7 +49,6 @@ class DbController {
       next(e)
     }
   }
-
   async destroy(req,res,next) { 
     try {
       const {id} = req.body
@@ -52,7 +58,6 @@ class DbController {
       next(e)
     }
   }
-
   async change(req,res,next) { 
     try {
       const {id, param, value} = req.body
@@ -62,7 +67,6 @@ class DbController {
       next(e)
     }
   }
-
   async findAll(req,res,next) { 
     try {
       const cards = await cardService.findAll()
@@ -71,7 +75,6 @@ class DbController {
       next(e)
     }
   }
-
   async findOne(req,res,next) { 
     try {
       const {id} = req.body
@@ -81,7 +84,6 @@ class DbController {
       next(e)
     }
   }
-
   async fetchViolations(req,res,next) { 
     try { 
       const violations = await cardService.fetchViolations()
@@ -90,7 +92,6 @@ class DbController {
       next(e)
     }
   }
-  
   async addViolationVariant(req,res,next) { 
     try { 
       const {name, description} = req.body 
@@ -100,7 +101,6 @@ class DbController {
       next(e)
     }
   } 
-
 }
 
 module.exports = new DbController()

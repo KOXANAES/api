@@ -4,19 +4,22 @@
     "header header violations"
     "creation owner violations"
     "info owner violations"
-    "info owner addForm";
+    "info owner addForm"
+    "error error error";
   grid-gap: 20px;
   grid-auto-flow: row dense;
   font-size: 14px;
   text-align: start;
 }
-.table_cardProfile_header { grid-area: header; text-align: center; }
+.table_cardProfile_header { grid-area: header; }
+.table_cardProfile_header > h1 { text-align: center; }
 .table_cardProfile_creation { grid-area: creation; }
 .table_cardProfile_info { grid-area: info; }
 .table_cardProfile_owner { grid-area: owner; }
 .table_cardProfile_violations { grid-area: violations; color: red; }
-.table_cardProfile_addForm { grid-area: addForm; }
+.table_cardProfile_addForm {  }
 .table_profile_list { list-style-type: none; }
+.table_profile_error { grid-area: error;  max-width: 50%;}
 
 .table_cardProfile_form_inner { 
   display: flex;
