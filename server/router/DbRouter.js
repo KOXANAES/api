@@ -4,6 +4,7 @@ const Router = require('express')
 const DbRouter = new Router()
 
 const Validators = require('../validator/FieldsValidator')
+const AuthMiddleware = require('../middlewares/AuthMiddleware')
 
 DbRouter.post('/add', 
   Validators.addCardsValidator(),

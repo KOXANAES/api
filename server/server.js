@@ -23,7 +23,6 @@ app.use('/auth', AuthRouter)
 app.use('/db', DbRouter)
 app.use(ErrorMiddleware)
 
-
 const start = async () => {
   try {
     sequelize.sync()
