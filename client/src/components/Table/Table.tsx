@@ -78,8 +78,20 @@ const Table: FC = () => {
   } 
 
   const handleProfile = async(home:IInspectionCard) => { 
-    setHome(home)
-    setProfileModalActive(true)
+    if(authStore.user.role === 'INSPECTOR') { 
+      setHome(home)
+      setProfileModalActive(true)
+      return
+    }
+    if(authStore.user.nickname === home.responsibleWorker) { 
+      setHome(home)
+      setProfileModalActive(true)
+      return
+    } else { 
+      alert('Вы не имеете доступа к данной карточке!')
+      return
+    }
+
   }
 
   const handleFill = async(home:IInspectionCard) => { 
@@ -140,12 +152,17 @@ const Table: FC = () => {
     setCurrentPage(1);
   };
 
+  // фильтр по городу (вводимый)
+  const [selectedCity, setSelectedCity] = useState<string>('');
+
+
   // пагинация + фильтра + задаём кол-во карточек на странице
   const filteredHomes = homes.filter(home => {
     const categoryMatch = selectedCategory ? home.category === selectedCategory : true;
     const responsibleMatch = selectedResponsible ? home.responsibleWorker === selectedResponsible : true;
     const statusMatch = selectedStatus ? home.status === selectedStatus : true;
-    return categoryMatch && responsibleMatch && statusMatch;
+    const cityMatch = selectedCity ? home.adress.city.toLowerCase().includes(selectedCity.toLowerCase()) : true; // Фильтр по городу
+    return categoryMatch && responsibleMatch && statusMatch && cityMatch; // Добавляем cityMatch
   });
 
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -188,49 +205,67 @@ const Table: FC = () => {
     <>
       <main>
         <header>
-          <div>
+          <div className='header__btns-settings'>
             <div><button className='orange-btn' onClick={handleGetCards}>Обновить</button></div>
-            <div><button className='orange-btn' onClick={() => setAddModalActive(true)}>Добавить</button></div>
+            {
+              authStore.isAuth && authStore.user.isActivated && authStore.user.role != 'USER' ? 
+              <div><button className='orange-btn' onClick={() => setAddModalActive(true)}>Добавить</button></div>
+              :
+              ''
+            } 
           </div>
-          <div>
+          <div className='header__cards-settings'>
             <p>
               Выведено адресов: <span className='accent__orange'>{filteredHomes.length}.</span>
+            </p>
+            <p>
               Показывать по:
-                <select className='my__select' value={itemsPerPage} onChange={handleSetItemsPerPage}>
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                  <option value={homes.length}>Все</option>
-                </select>
+              <select className='my__select' value={itemsPerPage} onChange={handleSetItemsPerPage}>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={homes.length}>Все</option>
+              </select>
             </p>
           </div>
         </header>
         <table className='main_table'>
           <thead>
             <tr className='table_headers'>
-              <th>Город</th>
-              <th>Улица</th>
-              <th>Дом</th>
-              <th>Квартира</th>
-              <th>Обследовать до</th>
               <th>
-                Инспектор:
+                <div>
+                  <label>Город: </label>
+                  <input
+                    type='text'
+                    className='my__select'
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                    placeholder='Введите город'
+                  />
+                </div>
+              </th>
+              <th><div>Улица</div></th>
+              <th><div>Дом</div></th>
+              <th><div>Квартира</div></th>
+              <th><div>Обследовать до</div></th>
+              <th>
+              <div>Инспектор:
                 <select className='my__select' value={selectedResponsible} onChange={handleResponsibleChange}>
                   <option className='my__select__option' value=''> Выбрать</option>
                   {users.map((user, index) => (<option className='my__select__option' value={user.nickname} key={index}>{user.nickname}</option>))}
-                </select>
+                </select></div>
               </th>
               <th>
-                Статус:
+              <div>Статус:
                 <select className='my__select' value={selectedStatus} onChange={handleStatusChange}>
                   <option className='my__select__option' value=''>Выбрать</option>
                   <option className='my__select__option' value="Посещено">Посещено</option>
                   <option className='my__select__option' value="Не посещено">Не посещено</option>
-                </select>
+                </select></div>
               </th>
               <th>
-                Категория:
+              <div>Категория:
                 <select className='my__select' value={selectedCategory} onChange={handleCategoryChange}>
                   <option className='my__select__option' value=''> Выбрать</option>
                   <option className='my__select__option' value="Одинокий">Одинокий</option>
@@ -239,20 +274,19 @@ const Table: FC = () => {
                   <option className='my__select__option' value="1-2 ребёнка">Семья, воспитывающая 1-2 ребёнка</option>
                   <option className='my__select__option' value="Многодетная">Многодетная семья</option>
                   <option className='my__select__option' value="Иные">Иные</option>
-                </select>
+                </select></div>
               </th>
               <th><button className='green-btn' onClick={() => resetFilters()}>Очистить фильтр</button></th>
             </tr>
           </thead>
-          
             {tableOnLoad ? 
               <tbody> 
                 <tr>
-                  <td colSpan={10}><p className='table__onload__message'>Загружаю учётные формы!</p></td>
+                  <td colSpan={10}>
+                    <div className='table__onload__message'>Пожалуйста, дождитесь загрузки учетных форм<div className="table__onload__message TestSpinner"></div></div>
+                    </td>
                 </tr>
               </tbody>
-              
-            
             : 
             <tbody>
               {currentItems.map(homes =>
@@ -272,13 +306,16 @@ const Table: FC = () => {
                   <td className={homes?.status === 'Посещено' ? 'highlight__green' : ''} onClick={() => handleProfile(homes)}>{homes?.status}</td>
                   <td onClick={() => handleProfile(homes)}>{homes?.category}</td>
                   <td><button className='tool_btns_btn btn_change' onClick={() => handleFill(homes)}>Изменить</button></td>
-                  <td><button className='tool_btns_btn btn_delete' onClick={() => handleDelete(homes)}>Удалить</button></td>
+                    {
+                      authStore.isAuth && authStore.user.isActivated && authStore.user.role != 'USER' ? 
+                      <td><button className='tool_btns_btn btn_delete' onClick={() => handleDelete(homes)}>Удалить</button></td>
+                      :
+                      ''
+                    } 
                 </tr>
               )}
             </tbody>
             }
-            
-          
         </table>
         <div className="table__pagination">
           <button className={currentPage === 1 ? 'orange-btn table__pagination-disabled' : 'orange-btn'} onClick={handlePrevPage} disabled={currentPage === 1}>Назад</button>

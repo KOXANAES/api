@@ -21,21 +21,6 @@ header > div {
   align-items: center;
 }
 
-
-
-.tool_btns_btn_down { 
-  background-color: rgb(242,114,28);
-  padding: 5px 10px;
-  border: 1px solid rgb(51, 45, 40);
-  font-size: 18px;
-  color: black;
-  transition: .1s;
-}
-.tool_btns_btn_down:hover { 
-  background-color: rgb(242,114,28);
-  color: white;
-}
-
 .tool_btns_btn { 
   background-color: transparent;
   padding: 5px 10px;
@@ -89,11 +74,11 @@ header > div {
 }
 
 .test1 {
-  background-color: red; /* Цвет для истекшего срока */
+  background-color: red;
 }
 
 .warning-class {
-  background-color: yellow; /* Цвет для предупреждения (менее 5 дней) */
+  background-color: yellow;
 }
 
 .highlight__green { 
@@ -108,7 +93,38 @@ header > div {
 }
 
 .table__onload__message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 15px; 
-  font-size: 20px;
+  border: 1px solid rgba(242,114,28, 0);
+  font-size: 17px;
   color: var(--orange);
+  animation-name: burning;
+  animation-duration: 3s;
+  animation-iteration-count: infinite; 
+}
+
+@keyframes burning {
+  0% {border: 1px solid rgba(242,114,28, 0)}
+  33% {border: 1px solid rgba(242,114,28, 1); filter: brightness(200%);}
+  66% {bborder: 1px solid rgba(242,114,28, 0)}
+}
+
+.TestSpinner { 
+  width:30px;
+  height: 30px;
+  border: 5px solid transparent;
+  border-top: 5px solid var(--orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
 }

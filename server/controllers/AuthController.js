@@ -1,10 +1,17 @@
+const ApiError = require('../exceptions/ApiError')
 const {User} = require('../models/models')
 const authService = require('../services/AuthService')
 const MailService = require('../services/MailService')
 
+const {validationResult} = require('express-validator')
+
 class AuthController { 
   async registration(req,res,next) { 
     try {  
+      const errors = validationResult(req)
+      if(!errors.isEmpty()) { 
+        return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
+      }
       const {email,password,nickname} = req.body
       const userData = await authService.registration(email,password,nickname)
       res.cookie('refreshtoken', userData.refreshToken, {maxAge:30 * 24 * 60 * 60 * 1000, httpOnly: true}) // добавить secure:true при использовании https

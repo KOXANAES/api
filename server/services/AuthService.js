@@ -9,23 +9,20 @@ const gMailService = require('./gmailService')
 class AuthService { 
 
   async registration(email, password, nickname) { 
+    
     const candidate = await User.findOne({where:{email:email}})
-    if(!email) { 
-      throw ApiError.BadRequest('Необходимо указать Email!')
+    if (candidate) throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
+
+    try { 
+      await mailService.sendActivationMail(email, `${process.env.API_URL}/auth/activate/${activationLink}`)
+    } catch(e) { 
+      throw ApiError.BadRequest(`Не удаётся отправить сообщение на почту ${email}. Проверьте правильность введённых данных`)
     }
-    if(!password) { 
-      throw ApiError.BadRequest('Необходимо указать пароль!')
-    }
-    if(!nickname) { 
-      throw ApiError.BadRequest('Необходимо указать ваш Ник!')
-    }
-    if (candidate) { 
-      throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
-    }
+
     const hashPassword = await bcrypt.hash(password, 5)
     const activationLink = uuid.v4()
+
     const user = await User.create({email, password:hashPassword, nickname, activationLink})  
-    await mailService.sendActivationMail(email, `${process.env.API_URL}/auth/activate/${activationLink}`)
     const userDto = new UserDto(user)
     const tokens = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)

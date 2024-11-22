@@ -84,6 +84,10 @@ body {
   background-color: var(--themeColor1); 
   color: inherit;
 }
+.my__select::placeholder {
+  color: var(--orange);
+  opacity: 0.7;
+}
 
 .accent__orange { 
   color: var(--orange)

@@ -5,6 +5,9 @@
   align-items: center;
   height: 100vh;
   color: var(--orange);
+  animation-name: app_loading_animation;
+  animation-duration: 3s;
+  animation-iteration-count: infinite; 
 }
 .spinner_logo { 
   display: flex;
@@ -22,4 +25,13 @@
   margin-top: 10px;
   font-size: 15px;
   font-weight: 650;
+}
+
+.app_loading_message { 
+  display: flex;
+  align-items: center;
+}
+
+@keyframes app_loading_animation {
+
 }

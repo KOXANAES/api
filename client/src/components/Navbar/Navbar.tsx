@@ -19,7 +19,7 @@ const Navbar: FC= () => {
 
   const navigate = useNavigate();
 
-  const [defaultModalActive, setDefautModalActive] = useState<boolean>(false)
+  const [defaultModalActive, setDefautModalActive] = useState<boolean>(true)
   const [changeForm, setChangeForm] = useState(false)
 
   const handleChangeForm = async() => { 
@@ -40,20 +40,24 @@ const Navbar: FC= () => {
       <div className='navbar__left'>
         <Logo/>
       </div>  
-      <div className='navigationMenu'>
-        <NavLink 
-          className={({ isActive }) => isActive ? 'navigationMenu__links active' : 'navigationMenu__links'} 
-          to={TABLE_ROUTE}
-        >
-          Таблица
-        </NavLink>
-        <NavLink 
-          className={({ isActive }) => isActive ? 'navigationMenu__links active' : 'navigationMenu__links'} 
-          to={ACC_ROUTE}
-        >
-          Аккаунт
-        </NavLink>
-      </div>
+        { authStore.isAuth && authStore.user.isActivated ? 
+          <div className='navigationMenu'>
+            <NavLink 
+             className={({ isActive }) => isActive ? 'navigationMenu__links active' : 'navigationMenu__links'} 
+              to={TABLE_ROUTE}
+             >
+            Таблица
+            </NavLink>
+            <NavLink 
+             className={({ isActive }) => isActive ? 'navigationMenu__links active' : 'navigationMenu__links'} 
+              to={ACC_ROUTE}
+            >
+            Аккаунт
+          </NavLink>
+          </div>
+        : 
+        '' 
+        }
       <div className='navbar__right'>
         <div className='greeting'>
           <p>

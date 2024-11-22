@@ -1,8 +1,8 @@
 export interface IInspectionCard {
   id: number;
-  creationDate: string;
+  creationDate: string | Date;
   inspectionDate: string;
-  inspectionDeadline: string;
+  inspectionDeadline: string | Date;
   responsibleWorker: string;
   status: string;
   otherInfo: string;

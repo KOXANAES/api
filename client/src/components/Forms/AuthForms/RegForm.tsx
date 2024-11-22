@@ -26,14 +26,23 @@ const LoginForm: FC<ModalProps> = ({setActive, changeForm, handleChangeForm}) =>
       await authStore.registration(email, password, nickname)
       setErrorMessage(null)
       setActive(false)
-    } catch(e:any) { 
+    } catch(e:any) {
+      if(e.response.data.errors != 0) { 
+        const errorMessages = e.response?.data?.errors.map((error:any) => error.msg )
+        setErrorMessage(errorMessages.join(' '))
+      } else {
         setErrorMessage(e.response?.data?.message)
+      }
     }
   }
 
   return( 
     <div className='forms'>
       <h2>Регистрация</h2>
+      <p><i>
+        Обратите внимание на правильность заполнения форм: допустимая длинна пароля и имени пользователя от 4 до 20 символов.
+        Имя пользователя и пароль могут содержать кириллицу, латинский алфавит, цифры 0-9 и следующие символы: !@#$%^&* .
+      </i></p>
       <input 
         className="forms_input"
         onChange={e => setEmail(e.target.value)}
