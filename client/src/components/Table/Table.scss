@@ -1,61 +1,41 @@
+@import '../../MainStyle.scss';
 main { 
-  background-color: rgb(35,35,35);
+  background-color: $dark_themeColor1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 5vh 5vh 5vh 5vh;
   box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
-  text-shadow: -1px 2px 5px rgba(0, 0, 0, 1);
-  font-size: 14px;
-  font-weight: 300;
+  text-shadow: -1px 2px 5px $black;
+  font-size: $defaultFontSize;
   color: white;
 }
 header { 
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  div { 
+    display: flex;
+    align-items: center;
+  }
 }
-header > div { 
-  display: flex;
-  align-items: center;
-}
-
 .tool_btns_btn { 
   background-color: transparent;
   padding: 5px 10px;
-  border: 1px solid var(--orange);
+  border: 0;
   color: white;
   width: 100%;
   transition: .25s;
-  text-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
-}
-.tool_btns_btn:hover { 
-  background-color: var(--orange);
-}
-.btn_change, 
-.btn_delete {
-  border: 0;
-  border-radius: 0;
+  text-shadow: 0px 2px 5px $black;
+  &:hover {background-color: $orange}
 }
 .main_table {
   border-collapse: collapse;
-}
-.main_table tr td:nth-child(8) {
-  border-right: 1px solid var(--pale_white);
-}
-.main_table > tbody > tr > td { 
   text-align: center;
-} 
-.main_table > tbody > tr:hover { 
-  background-color: var(--gray);
+  tr td:nth-child(8) {border-right: 1px solid $pale_white}
+  tbody > tr:hover {background-color: var(--gray)}
 }
-.main_table_cards:nth-child(odd) { 
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.main_table_cards:nth-child(even) { 
-    background-color: rgba(255, 255, 255, 0.15);
-}
+.main_table_cards:nth-child(odd) {background-color: rgba(255, 255, 255, 0.1)}
+.main_table_cards:nth-child(even) { background-color: rgba(255, 255, 255, 0.15)}
 
 .table__pagination { 
   display: flex;
@@ -65,22 +45,12 @@ header > div {
 .table__pagination-disabled { 
   border: 1px solid red;
   cursor: default;
-}
-.table__pagination-disabled:hover { 
-  background-color: transparent;
+  &:hover {background-color: transparent}
 }
 
-.test1 {
-  background-color: red;
-}
-
-.warning-class {
-  background-color: yellow;
-}
-
-.highlight__green { 
-  background-color: green;
-}
+.test1 {background-color: red}
+.warning-class {background-color: yellow}
+.highlight__green {background-color: green}
 
 .table__onload__message {
   display: flex;
@@ -109,7 +79,6 @@ header > div {
   33% {border: 1px solid rgba(242,114,28, 1); filter: brightness(200%);}
   66% {bborder: 1px solid rgba(242,114,28, 0)}
 }
-
 @keyframes spin {
   0% {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}

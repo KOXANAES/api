@@ -2,7 +2,7 @@ import { FC, useContext, useState } from "react"
 import { Context } from "../../../main"
 import { observer } from "mobx-react-lite"
 
-import '../Forms.css'
+import '../Forms.scss'
 
 interface ModalProps { 
   setActive: (active: boolean) => void;

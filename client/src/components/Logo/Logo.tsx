@@ -1,6 +1,6 @@
-import './Logo.css'
+import './Logo.scss'
 import logo from '../../assets/images/fire.png'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FC, useContext } from 'react';
 import { Context } from '../../main';
 import { observer } from 'mobx-react-lite';

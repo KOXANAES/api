@@ -2,7 +2,7 @@ import { FC, useContext, useEffect, useState } from "react"
 import { Context } from "../../../main"
 import { observer } from "mobx-react-lite"
 import { IInspectionCard } from "../../../models/ICardNew"
-import '../TableForms.css'
+import '../TableForms.scss'
 
 interface FillCardProps { 
   setActive: (active: boolean) => void;

@@ -3,7 +3,8 @@ import { useContext, useState } from "react";
 import { Context } from "../../../main";
 import SuggestForm from "../../Suggest/Suggest";
 
-import './LocalSettingsWindow.css'
+import './LocalSettingsWindow.scss'
+import DefaultModal from "../../Modals/Modal/DefaultModal";
 
 const LocalSettingsWindow = () => { 
 
@@ -34,7 +35,9 @@ const LocalSettingsWindow = () => {
   </div>
   <div className='acc__support-section'>
     <button className='green-btn' onClick={() => setSuggestModalActive(true)}>Поддержка</button>
-    <SuggestForm active={suggestModalActive} setActive={setSuggestModalActive}/>
+    <DefaultModal active={suggestModalActive} setActive={setSuggestModalActive}>
+      <SuggestForm />
+    </DefaultModal>
   </div>
 
 </div>

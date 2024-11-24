@@ -1,15 +1,20 @@
+@import '../../MainStyle.scss';
 .spinner { 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: var(--orange);
-}
-.spinner_logo { 
-  display: flex;
-  align-items: center;
-  font-weight: 650;
+  color: $orange;
+  .spinner_logo { 
+    display: flex;
+    align-items: center;
+    font-weight: 750;
+  }
+  .app_loading_message { 
+    display: flex;
+    align-items: center;
+  }
 }
 #spinner_img { 
   width: 40px;
@@ -22,8 +27,4 @@
   margin-top: 10px;
   font-size: 15px;
   font-weight: 650;
-}
-.app_loading_message { 
-  display: flex;
-  align-items: center;
 }

@@ -1,0 +1,18 @@
+.cardProfile {
+  display: grid;
+  grid-template-areas:
+    "header header violations"
+    "creation owner violations"
+    "info owner violations"
+    "info owner changeForm";
+  grid-gap: 20px;
+}
+.cardProfile_header {grid-area: header}
+.cardProfile_creation {grid-area: creation}
+.cardProfile_info {grid-area: info}
+.cardProfile_owner {grid-area: owner}
+.cardProfile_violations {
+  grid-area: violations;
+  color: red;
+}
+.profile_list {list-style-type: none}

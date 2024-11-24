@@ -1,4 +1,4 @@
-import './Tech.css';
+import './Tech.scss';
 import logo from '../../assets/images/fire.png';
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
@@ -9,7 +9,7 @@ const Tech: FC = () => {
   return (
     <div className='tech'>
       <div className='tech_header'>
-        <div>
+        <div>Ё
           <img id='logo_img' src={logo} alt='' />
           <span>API Project</span>
         </div>

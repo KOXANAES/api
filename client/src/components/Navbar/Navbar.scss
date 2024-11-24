@@ -1,0 +1,46 @@
+@import '../../MainStyle.scss';
+.navbar { 
+  background-color: var(--themeColor1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  .navbar__left, .navbar__right {flex: 1}
+}
+.navigationMenu {display: flex}
+.navigationMenu__links { 
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+  color: var(--white);
+  border-bottom: 2px solid rgba(0, 0, 0, 0);
+  transition: .2s ;
+  &:hover {border-bottom: 2px solid var(--orange)}
+  &.active { 
+  font-weight: bold;
+  color: var(--orange);
+  border-bottom: 2px solid var(--orange);
+  }
+}
+.navbar__right {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  .greeting { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 10px;
+    font-size: 12px;
+  }
+}
+#user_mail_message { color: white}
+#activate_btn { 
+  border: 0;
+  color: white;
+  background-color: transparent;
+  text-decoration: underline;
+}

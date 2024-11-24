@@ -1,4 +1,4 @@
-import './CardProfile.css'
+import './CardProfile.scss'
 import { FC } from 'react'
 import { IInspectionCard } from '../../models/ICardNew';
 

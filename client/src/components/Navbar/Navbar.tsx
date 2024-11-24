@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Context } from "../../main"
 import { observer } from "mobx-react-lite"
 
-import './Navbar.css'
+import './Navbar.scss'
 
 import Logo from "../Logo/Logo"
 
@@ -12,7 +12,6 @@ import { ACC_ROUTE, TABLE_ROUTE } from "../../router/Consts";
 import DefaultModal from "../Modals/Modal/DefaultModal";
 import LoginForm from "../Forms/AuthForms/LoginForm";
 import RegForm from "../Forms/AuthForms/RegForm";
-import TechRouter from "../../router/TechRouter";
 
 const Navbar: FC= () => { 
 
@@ -68,7 +67,7 @@ const Navbar: FC= () => {
           </p>
           <p>
             {authStore.isAuth && !authStore.user.isActivated && 
-              <span className='activate_message'>ВНИМАНИЕ! Сервис доступен только для авторизованных пользователей! <button id='activate_btn' onClick={handleActivate}>Активируйте</button> аккаунт по почте <span className='activate_message' id='user_mail_message'>{authStore.user.email}</span></span> 
+              <span className='error_message'>ВНИМАНИЕ! Сервис доступен только для авторизованных пользователей! <button id='activate_btn' onClick={handleActivate}>Активируйте</button> аккаунт по почте <span className='activate_message' id='user_mail_message'>{authStore.user.email}</span></span> 
             }
           </p>
         </div>

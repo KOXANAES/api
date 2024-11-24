@@ -1,3 +1,4 @@
+@import '../../MainStyle.scss';
 .table_cardProfile {
   display: grid;
   grid-template-areas:
@@ -16,8 +17,8 @@
 .table_cardProfile_creation { grid-area: creation; }
 .table_cardProfile_info { grid-area: info; }
 .table_cardProfile_owner { grid-area: owner; }
-.table_cardProfile_violations { grid-area: violations; color: red; }
-.table_cardProfile_addForm {  }
+.table_cardProfile_violations { grid-area: violations; color: $red; }
+.table_cardProfile_addForm { grid-area: addForm; }
 .table_profile_list { list-style-type: none; }
 .table_profile_error { grid-area: error;  max-width: 50%;}
 
@@ -25,15 +26,13 @@
   display: flex;
   justify-content: space-between;
 }
-
 #residents_form {
   display: flex;
   flex-direction: column;
 }
-
 #residents_list { 
   list-style-type: none;
-  color: green;
+  color: $green;
 }
 #violations_list {
   list-style-type: none;

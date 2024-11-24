@@ -1,4 +1,4 @@
-import './Spinner.css'
+import './Spinner.scss'
 import logo from '../../assets/images/fire.png'
 
 const MySpinner = () => { 

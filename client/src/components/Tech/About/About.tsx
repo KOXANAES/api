@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import './About.css'
+import './About.scss'
 import { FC } from 'react'
 
 const About:FC = () => { 

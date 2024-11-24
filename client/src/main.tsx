@@ -4,6 +4,8 @@ import App from './App.tsx'
 import AuthStore from './store/authStore.ts'
 import CardStore from './store/cardStore.ts'
 
+import './MainStyle.scss'
+
 interface State { 
   authStore: AuthStore
   cardStore: CardStore

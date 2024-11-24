@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import './Support.css'
+import './Support.scss'
 import { observer } from 'mobx-react-lite'
 
 const Support:FC = () => { 

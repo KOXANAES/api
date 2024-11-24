@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import './DefaultModal.css'
+import '../Modal.scss'
 
 interface DefaultModal { 
   active: boolean;

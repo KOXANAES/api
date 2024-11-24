@@ -1,0 +1,69 @@
+@font-face {font-family: 'Montserrat'; src: url('./assets/fonts/static/Montserrat-Regular.ttf') format('woff2')}
+* {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat'}
+
+$dark_themeColor1: rgb(35, 35, 35);
+$dark_themeColor2: rgb(52, 52, 52);
+$orange: rgb(242,114,28);
+$green: rgb(13,246,155);
+$red: rgb(255, 0, 0);
+$white: rgb(255,255,255);
+$pale_white: rgba(255,255,255,.5);
+$gray: rgba(187, 187, 187, 0.623);
+$black: rgb(0,0,0);
+$orangeSelected: rgb(240, 159, 105);
+
+$defaultFontSize: 14px;
+
+body { background-color: $dark_themeColor2;}
+
+:root { 
+  --themeColor1: rgb(35, 35, 35);
+  --themeColor2: rgb(52, 52, 52);
+  --orange: rgb(242,114,28);
+  --orangeSelected: rgb(240, 159, 105);
+  --green: rgb(13,246,155);
+  --white: rgb(255,255,255);
+  --pale_white: rgba(255,255,255,.5);
+  --gray: rgba(187, 187, 187, 0.623);
+  --red: red;
+}
+
+
+@mixin app_btns_style($color) { 
+  background-color: transparent;
+  border: 1px solid $color;
+  padding: 5px 10px;
+  text-shadow: 0px 2px 5px $black;
+  text-decoration: none;
+  font-size: 12px;
+  color: white;
+  transition: .1s;
+  cursor: pointer;
+  &:hover {background-color: $color}
+}
+.orange-btn {@include app_btns_style($orange);}
+.green-btn {@include app_btns_style($green); width: 100%;}
+.red-btn {@include app_btns_style($red); width: 100%;}
+.change-btn {
+  @include app_btns_style($orange);
+  border: 0;
+  color: var(--orange);
+  &:hover{color: $white;};
+}
+.my__select { 
+  font-weight: 750;
+  font-size: $defaultFontSize;
+  background-color: transparent;
+  border: 0;
+  color: var(--orange);
+  &:hover{color: var(--orangeSelected);}
+  &::placeholder {color: var(--orange); opacity: 0.7;}
+  .my__select__option {
+    background-color: var(--themeColor1); 
+    color: inherit;
+  }
+}
+.accent__orange { color: $orange}
+.tech_message {color: $green}
+.error_message {color: $red}
+

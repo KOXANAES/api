@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import logo from '../../assets/images/fire.png'
 
-import './Acc.css';
+import './Acc.scss';
 
 import defaultAvatar from '../../assets/images/avatar_default.png'
 

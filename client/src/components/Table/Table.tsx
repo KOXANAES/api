@@ -2,7 +2,7 @@ import { FC, useContext, useEffect, useState } from "react"
 import { Context } from "../../main"
 import { observer } from "mobx-react-lite"
 
-import './Table.css'
+import './Table.scss'
 import { IInspectionCard } from "../../models/ICardNew";
 
 import { IUser } from "../../models/IUser";
@@ -221,7 +221,7 @@ const Table: FC = () => {
           <p>Показывать по:
           <select className='my__select' value={itemsPerPage} onChange={handleSetItemsPerPage}>
             {cardsShown.map((param) => (
-              <option key={param} value={param}>{param === homes.length ? 'Все' : param}</option>
+              <option className='my__select__option' key={param} value={param}>{param === homes.length ? 'Все' : param}</option>
              ))}
            </select>
           </p>
@@ -272,7 +272,7 @@ const Table: FC = () => {
               </div>
             </th>
             <th><button className='green-btn' onClick={() => resetFilters()}>Очистить фильтр</button></th>
-            {authStore.user.isActivated && authStore.user.role === 'ADMIN' && 
+            {authStore.user.isActivated && authStore.user.role === 'INSPECTOR' && 
               <th><button className='red-btn' onClick={() => deleteAll()}>Удалить все</button></th>
             }
           </tr>

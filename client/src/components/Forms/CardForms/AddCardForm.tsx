@@ -2,7 +2,7 @@ import { FC, useContext, useState } from "react"
 import { Context } from "../../../main"
 import { observer } from "mobx-react-lite"
 import { IInspectionCard } from '../../../models/ICardNew';
-import '../TableForms.css'
+import '../TableForms.scss'
 import { IUser } from "../../../models/IUser";
 
 
@@ -78,7 +78,6 @@ const AddCardForm: FC<AddCardFormProps> = ({usersArr, setActive, setHomes}) => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
-
   
   const handleDeadlineDate = async(e:string) => {
     const inspectionDeadline = new Date(e)

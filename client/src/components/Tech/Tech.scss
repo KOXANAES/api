@@ -1,0 +1,18 @@
+.tech {
+  display: flex;
+  flex-direction: column;
+  color: var(--white);
+  margin: 15vh 30vh 0vh 30vh;
+  .tech_header { 
+    display: flex;
+    justify-content: space-between;
+    font-size: 40px;
+    color: var(--orange);
+    border-bottom: 1px solid var(--orange);
+    list-style-type: none;
+    margin-bottom: 2%;
+  }
+  .techActive { 
+    background-color: var(--orange);
+  }
+}
