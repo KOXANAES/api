@@ -1,20 +1,31 @@
 import './Logo.css'
 import logo from '../../assets/images/fire.png'
 import { Link, useNavigate } from 'react-router-dom';
+import { FC, useContext } from 'react';
+import { Context } from '../../main';
+import { observer } from 'mobx-react-lite';
 
-const Logo = ({}) => { 
+const Logo:FC = ({}) => { 
+
+  const {authStore} = useContext(Context)
 
   const navigate = useNavigate()
 
+  const handleNavigate = async() => { 
+    if(authStore.isAuth) { 
+      navigate('/tech')
+    }
+  }
+
   return(
     <div className="logo">
-      <img id='logo_img' src={logo} alt='logo' onClick={() => navigate('/')}/>
+      <img id='logo_img' src={logo} alt='logo' onClick={() => handleNavigate()}/>
       <div>
-        <p id='logo_name'><Link to='/'>АПИ</Link></p>
+        <p id='logo_name' onClick={() => handleNavigate()}>АПИ</p>
         <p id='logo_decs'>Cистема учёта проведения пожарно-профилактической работы</p>
       </div>
     </div>
   )
 } 
 
-export default Logo
+export default observer(Logo)

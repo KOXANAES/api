@@ -5,10 +5,12 @@ import { observer } from "mobx-react-lite"
 import './Table.css'
 import { IInspectionCard } from "../../models/ICardNew";
 
-import AddCardModal from "../Modals/CardModals/AddCardModal"
-import ProfileCardModal from "../Modals/CardModals/ProfileCardModal"
-import FillCardModal from "../Modals/CardModals/FillCardModal"
 import { IUser } from "../../models/IUser";
+
+import DefaultModal from "../Modals/Modal/DefaultModal";
+import AddCardForm from "../Forms/CardForms/AddCardForm";
+import CardProfile from "../Profiles/CardProfile";
+import FillCardForm from "../Forms/CardForms/FillCardForm";
 
 export interface ViolationVariant { 
   id: number; 
@@ -302,9 +304,9 @@ const Table: FC = () => {
                 <td className={homes?.status === 'Посещено' ? 'highlight__green' : ''} onClick={() => handleProfile(homes)}>{homes?.status}</td>
                 <td onClick={() => handleProfile(homes)}>{homes?.category}</td>
                 <td><button className='tool_btns_btn btn_change' onClick={() => handleFill(homes)}>Изменить</button></td>
-                  {authStore.isAuth && authStore.user.isActivated && authStore.user.role != 'USER' &&
-                    <td><button className='tool_btns_btn btn_delete' onClick={() => handleDelete(homes)}>Удалить</button></td>
-                  } 
+                {authStore.isAuth && authStore.user.isActivated && authStore.user.role != 'USER' &&
+                  <td><button className='tool_btns_btn btn_delete' onClick={() => handleDelete(homes)}>Удалить</button></td>
+                } 
               </tr>
             )}
           </tbody>
@@ -315,9 +317,15 @@ const Table: FC = () => {
         <span>Страница {currentPage} из {totalPages}</span>
         <button className={currentPage === totalPages ? 'orange-btn table__pagination-disabled' : 'orange-btn'} onClick={handleNextPage} disabled={currentPage === totalPages}>Вперед</button>
       </div>
-      <AddCardModal usersArr={users} active={addModalActive} setActive={setAddModalActive} setHomes={setHomes}/>
-      <ProfileCardModal active={profileModalActive} setActive={setProfileModalActive} setHomes={setHomes} home={home}/>
-      <FillCardModal active={fillModalActive} setActive={setFillModalActive} setHomes={setHomes} home={home}/>
+      <DefaultModal active={addModalActive} setActive={setAddModalActive} >
+        <AddCardForm usersArr={users} setActive={setAddModalActive} setHomes={setHomes}/>
+      </DefaultModal> 
+      <DefaultModal active={profileModalActive} setActive={setProfileModalActive} >
+        <CardProfile home={home}/>
+      </DefaultModal>
+      <DefaultModal active={fillModalActive} setActive={setFillModalActive} >
+        <FillCardForm setActive={setFillModalActive} setHomes={setHomes} homeProps={home}/>
+      </DefaultModal>
     </main>
   )
 }

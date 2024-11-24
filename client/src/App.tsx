@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom"
 import AppRouter from "./router/AppRouter"
 
 import MySpinner from "./components/Spinner/Spinner"
+import TechRouter from "./router/TechRouter"
 
 const App: FC = () => {
 
@@ -34,6 +35,7 @@ const App: FC = () => {
     >
       <Navbar/>
       <AppRouter/>
+      <TechRouter/>
     </BrowserRouter>
   )
 }

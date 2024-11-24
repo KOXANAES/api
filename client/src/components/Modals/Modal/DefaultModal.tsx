@@ -6,7 +6,6 @@ interface DefaultModal {
   active: boolean;
   setActive: (active: boolean) => void;
   children: any
-
 }
 
 const DefaultModal: FC<DefaultModal> = ({active, setActive, children}) => { 

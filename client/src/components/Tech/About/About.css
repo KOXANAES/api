@@ -1,0 +1,20 @@
+.tech__content { 
+  margin: 0vh 40vh 0vh 40vh;
+  color: white;
+}
+.tech__docs { 
+  list-style-type: disc;
+}
+.tech__docs li:not(:first-child) {
+  margin-left: 10%;
+  font-size: 20px;
+}
+.tech__docs li::marker {
+  color: var(--orange);
+}
+.tech__second__header { 
+  color: var(--orange);
+}
+.tech__answer { 
+  margin-left: 50px;
+}

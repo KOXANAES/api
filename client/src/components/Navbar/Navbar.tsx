@@ -12,6 +12,7 @@ import { ACC_ROUTE, TABLE_ROUTE } from "../../router/Consts";
 import DefaultModal from "../Modals/Modal/DefaultModal";
 import LoginForm from "../Forms/AuthForms/LoginForm";
 import RegForm from "../Forms/AuthForms/RegForm";
+import TechRouter from "../../router/TechRouter";
 
 const Navbar: FC= () => { 
 

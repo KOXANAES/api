@@ -1,8 +1,13 @@
 import Account from "../components/Account/Acc";
-import Root from "../components/Root/Root";
 import Table from "../components/Table/Table";
 
-import { TABLE_ROUTE, ROOT_ROUTE, ACC_ROUTE } from "./Consts";
+import Tech from "../components/Tech/Tech";
+
+import About from "../components/Tech/About/About";
+import Faq from "../components/Tech/FAQ/Faq";
+import Support from "../components/Tech/Support/Support";
+
+import { TABLE_ROUTE, TECH_ROUTE, ACC_ROUTE, ABOUT_ROUTE, FAQ_ROUTE, SUPPORT_ROUTE } from "./Consts";
 
 export const AuthRoutes = [
   {
@@ -13,11 +18,23 @@ export const AuthRoutes = [
     path: ACC_ROUTE,
     Component: Account
   },
+  {
+    path: TECH_ROUTE,
+    Component: Tech
+  },
 ]
 
-export const PublicRoutes = [ 
+export const TechRoutes = [
   {
-    path: ROOT_ROUTE,
-    Component: Root
+    path: ABOUT_ROUTE,
+    Component: About
+  },
+  {
+    path: FAQ_ROUTE,
+    Component: Faq
+  },
+  {
+    path: SUPPORT_ROUTE,
+    Component: Support
   },
 ]
