@@ -122,6 +122,16 @@ class Validators {
         .withMessage('Количество печей, требующих ремонта выражается числом.'),
     ]
   }
+  newNicknameValidator = () => { 
+    return [ 
+      body('newNickname')
+        .notEmpty()
+        .withMessage('Никнейм не может быть пустой строкой!'),
+      body('newNickname')
+      .matches(/^[A-Za-zА-Яа-я0-9]+$/)
+      .withMessage('Никнейм может содержать только кириллицу, латынь и цифры 0-9'),
+    ]
+  }
 }
 
 module.exports = new Validators()

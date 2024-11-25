@@ -6,6 +6,7 @@ const tokenService = require('./TokenService')
 const UserDto = require('../dtos/UserDto')
 const ApiError = require('../exceptions/ApiError')
 const gMailService = require('./gmailService')
+const CardService = require('./CardService')
 class AuthService { 
 
   async registration(email, password, nickname) { 
@@ -95,11 +96,17 @@ class AuthService {
     return `Ссылка для активации аккаунта была отправлена на почту ${email}`
 }
 
-  async changeNickname(nickname) { 
-    const user = await User.findOne({where:{email:email}})
-    console.log(user)
-    return 1
-  }
+async updateNickname(email, oldNickname, newNickname) { 
+  const isNickInUse = await User.findOne({ where: { nickname: newNickname } });    
+  if (isNickInUse) {throw ApiError.BadRequest(`Никнейм ${newNickname} уже используется!`)}
+  const user = await User.findOne({ where: { email: email } });
+  if (!user) {throw ApiError.BadRequest(`Пользователь ${email} почему-то не найден!`)}
+  console.log(oldNickname)
+  await CardService.updateResponsibleWorker(oldNickname, newNickname)
+  user.nickname = newNickname;
+  await user.save();
+  return { user: user };
+}
 
   async getUsers() { 
     const users = await User.findAll()

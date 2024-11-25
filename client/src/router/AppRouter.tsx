@@ -10,7 +10,7 @@ const AppRouter = () => {
 
   return( 
     <Routes>
-    {authStore.isAuth && authStore.user.isActivated && AuthRoutes.map(({ path, Component }) => (
+    {authStore.isAuth && AuthRoutes.map(({ path, Component }) => (
       <Route key={path} path={path} element={<Component />} />
     ))}
     <Route path="*" element={<Navigate to="/" replace />} />

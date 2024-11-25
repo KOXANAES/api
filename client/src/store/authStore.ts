@@ -101,10 +101,10 @@ export default class AuthStore {
     }
   }
 
-  async updateNickname(nickname:string) { 
+  async updateNickname(email:string, oldNickname:string, newNickname:string) { 
     try {   
-      const response = await AuthService.updateNickname(nickname)
-      console.log(response)
+      const response = await AuthService.updateNickname(email, oldNickname, newNickname)
+      this.setUser(response.data.user)
     } catch(e) { 
       throw e
     }

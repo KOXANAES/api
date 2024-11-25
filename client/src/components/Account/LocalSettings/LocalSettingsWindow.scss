@@ -1,13 +1,17 @@
+@import './../../Forms/Forms.scss';
 .acc__settings { 
   display: flex;
   flex-direction: column;
-}
-
-.acc__settings___option { 
-  border-bottom: 1px solid var(--pale_white);
-}
-
-.acc__support-section { 
-  margin-top: 20px;
-  text-align: center;
+  .acc__settings___option {border-bottom: 1px solid var(--pale_white)}
+  .acc__settings___option__info { 
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    .changeUserParam__container {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+      height: 40px;
+    }
+  }
 }

@@ -12,8 +12,8 @@ export default class AuthService {
   static async logout(): Promise<void> { 
     return $api.post('/auth/logout')
   }
-  static async updateNickname(nickname:string): Promise<void> { 
-    return $api.post('/auth/updateNickname', {nickname})
+  static async updateNickname(email:string, oldNickname:string, newNickname:string): Promise<AxiosResponse<AuthResponce>> { 
+    return $api.post<AuthResponce>('/auth/updateNickname', {email, oldNickname, newNickname})
   }
   static async getUsers() {
     return $api.get('/auth/getUsers')

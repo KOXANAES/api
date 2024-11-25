@@ -141,6 +141,16 @@ class CardService {
     return addedViolation
   }
 
+  async updateResponsibleWorker(oldNickname, newNickname) {
+    try {
+        const [updatedCount] = await Card.update(
+            { responsibleWorker: newNickname },
+            { where: { responsibleWorker: oldNickname } }
+        );
+    } catch (error) {
+        throw ApiError.BadRequest(`Ошибка при обновлении ответственного работника: ${error.message}`);
+    }
+}
 }
 
 module.exports = new CardService()

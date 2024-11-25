@@ -101,8 +101,12 @@ class AuthController {
 
   async updateNickname(req,res,next) { 
     try { 
-      const {email,password,nickname} = req.body
-      const user = await authService.updateNickname(nickname)
+      const errors = validationResult(req)
+      if(!errors.isEmpty()) { 
+        return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
+      }
+      const {email, oldNickname, newNickname} = req.body
+      const user = await authService.updateNickname(email, oldNickname, newNickname)
       return res.json(user)
     } catch(e) { 
       next(e)
