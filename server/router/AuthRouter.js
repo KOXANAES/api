@@ -19,6 +19,9 @@ AuthRouter.post('/help', AuthMiddleware, AuthController.help)
 AuthRouter.post('/updateNickname',
   Validators.newNicknameValidator(),
   AuthController.updateNickname)
+AuthRouter.post('/updateEmail',
+  Validators.newEmailValidator(),
+  AuthController.updateEmail)
 AuthRouter.get('/activate/:link', AuthController.activate)
 AuthRouter.get('/refresh', AuthController.refresh)
 AuthRouter.get('/getUsers', AuthController.getUsers)

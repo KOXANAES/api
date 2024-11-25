@@ -94,19 +94,34 @@ class AuthService {
         await gMailService.sendActivationMail(email, `${process.env.API_URL}/auth/activate/${activationLink}`)
     }
     return `Ссылка для активации аккаунта была отправлена на почту ${email}`
-}
+  }
 
-async updateNickname(email, oldNickname, newNickname) { 
-  const isNickInUse = await User.findOne({ where: { nickname: newNickname } });    
-  if (isNickInUse) {throw ApiError.BadRequest(`Никнейм ${newNickname} уже используется!`)}
-  const user = await User.findOne({ where: { email: email } });
-  if (!user) {throw ApiError.BadRequest(`Пользователь ${email} почему-то не найден!`)}
-  console.log(oldNickname)
-  await CardService.updateResponsibleWorker(oldNickname, newNickname)
-  user.nickname = newNickname;
-  await user.save();
-  return { user: user };
-}
+  async updateNickname(email, oldNickname, newNickname) { 
+    const isNickInUse = await User.findOne({ where: { nickname: newNickname } });    
+    if (isNickInUse) {throw ApiError.BadRequest(`Никнейм ${newNickname} уже используется!`)}
+    const user = await User.findOne({ where: { email: email } });
+    if (!user) {throw ApiError.BadRequest(`Пользователь ${email} почему-то не найден!`)}
+    console.log(oldNickname)
+    await CardService.updateResponsibleWorker(oldNickname, newNickname)
+    user.nickname = newNickname;
+    await user.save();
+    return { user: user };
+  }
+
+  async updateEmail(email, newEmail) { 
+    const isEmailInUse = await User.findOne({where:{email:newEmail}})
+    if (isEmailInUse) throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
+    const user = await User.findOne({where:{email:email}})
+    if(!user) {throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)}
+    const activationLink = uuid.v4()
+    try { 
+      await mailService.sendActivationMail(email, `${process.env.API_URL}/auth/activate/${activationLink}`)
+      user.email = newEmail
+      user.isActivated = false
+      user.activationLink = activationLink
+      await user.save()
+    } catch(e) {throw ApiError.BadRequest(`Не удаётся отправить сообщение на почту ${email}. Проверьте правильность введённых данных`)}
+  }
 
   async getUsers() { 
     const users = await User.findAll()

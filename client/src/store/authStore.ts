@@ -109,6 +109,14 @@ export default class AuthStore {
       throw e
     }
   }
+  async updateEmail(email:string, newEmail:string) { 
+    try {   
+      const response = await AuthService.updateEmail(email, newEmail)
+      this.setUser(response.data.user)
+    } catch(e) { 
+      throw e
+    }
+  }
 
   async getUsers() { 
     try { 

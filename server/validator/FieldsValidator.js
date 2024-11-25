@@ -128,8 +128,15 @@ class Validators {
         .notEmpty()
         .withMessage('Никнейм не может быть пустой строкой!'),
       body('newNickname')
-      .matches(/^[A-Za-zА-Яа-я0-9]+$/)
+      .matches(/^[A-Za-zА-Яа-я0-9()_]+$/)
       .withMessage('Никнейм может содержать только кириллицу, латынь и цифры 0-9'),
+    ]
+  }
+  newEmailValidator = () => { 
+    return [
+      body('newEmail')
+      .notEmpty()
+      .withMessage('Почта не может быть пустой строкой!'),
     ]
   }
 }

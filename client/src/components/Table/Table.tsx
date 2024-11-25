@@ -104,12 +104,7 @@ const Table: FC = () => {
     }, []);
 
   const handleProfile = async(home:IInspectionCard) => { 
-    if(authStore.user.role === 'INSPECTOR') { 
-      setHome(home)
-      setProfileModalActive(true)
-      return
-    }
-    if(authStore.user.nickname === home.responsibleWorker) { 
+    if(authStore.user.role != 'USER' || authStore.user.nickname === home.responsibleWorker) { 
       setHome(home)
       setProfileModalActive(true)
       return
@@ -120,8 +115,15 @@ const Table: FC = () => {
   }
 
   const handleFill = async(home:IInspectionCard) => { 
-    setHome(home)
-    setFillModalActive(true)
+    if(authStore.user.role != 'USER' || authStore.user.nickname === home.responsibleWorker) { 
+      setHome(home)
+      setFillModalActive(true)
+      return
+    } else { 
+      alert('Вы не имеете доступа к данной карточке!')
+      return
+    }
+    
   }
 
   // filters
