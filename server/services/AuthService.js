@@ -13,6 +13,7 @@ class AuthService {
     const candidate = await User.findOne({where:{email:email}})
     if (candidate) throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
 
+    const activationLink = uuid.v4()
     try { 
       await mailService.sendActivationMail(email, `${process.env.API_URL}/auth/activate/${activationLink}`)
     } catch(e) { 
@@ -20,7 +21,6 @@ class AuthService {
     }
 
     const hashPassword = await bcrypt.hash(password, 5)
-    const activationLink = uuid.v4()
 
     const user = await User.create({email, password:hashPassword, nickname, activationLink})  
     const userDto = new UserDto(user)

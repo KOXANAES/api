@@ -21,7 +21,7 @@ const Logo:FC = ({}) => {
     <div className="logo">
       <img id='logo_img' src={logo} alt='logo' onClick={() => handleNavigate()}/>
       <div>
-        <p id='logo_name' onClick={() => handleNavigate()}>АПИ</p>
+        <p id='logo_name' onClick={() => handleNavigate()}>EMBERA</p>
         <p id='logo_decs'>Cистема учёта проведения пожарно-профилактической работы</p>
       </div>
     </div>

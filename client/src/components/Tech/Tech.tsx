@@ -9,9 +9,9 @@ const Tech: FC = () => {
   return (
     <div className='tech'>
       <div className='tech_header'>
-        <div>Ё
+        <div>
           <img id='logo_img' src={logo} alt='' />
-          <span>API Project</span>
+          <span>EMBERA Project</span>
         </div>
         <div className='tech__menu'>
           <NavLink 

@@ -14,7 +14,7 @@ const User = sequelize.define('user', {
 
 const Token = sequelize.define('token', {
   user: { type: DataTypes.INTEGER },
-  refreshToken: { type: DataTypes.STRING },
+  refreshToken: { type: DataTypes.TEXT },
 });
     
 const Card = sequelize.define('card', {

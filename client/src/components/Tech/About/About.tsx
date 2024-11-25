@@ -8,26 +8,26 @@ const About:FC = () => {
     <div className='tech__content'>
       <ul className='tech__docs'>
         <li>
-            <span className='tech__second__header'>Что такое АПИ?</span>
+            <span className='tech__second__header'>Что такое EMBERA?</span>
             <p className='root__answer'>
-              АПИ - электронная система учёта проведения пожарно-профилактической работы.
+            EMBERA - электронная система учёта проведения пожарно-профилактической работы.
             </p>
           </li>
           <li>
-            <span className='tech__second__header'>Что такое АПИ?</span>
-            <p className='root__answer'>АПИ - это</p>
+            <span className='tech__second__header'>Что такое EMBERA?</span>
+            <p className='root__answer'>EMBERA - это</p>
           </li>
           <li>
-            <span className='tech__second__header'>Что такое АПИ?</span>
-            <p className='root__answer'>АПИ - это</p>
+            <span className='tech__second__header'>Что такое EMBERA?</span>
+            <p className='root__answer'>EMBERA - это</p>
           </li>
           <li>
-            <span className='tech__second__header'>Что такое АПИ?</span>
-            <p className='root__answer'>АПИ - это</p>
+            <span className='tech__second__header'>Что такое EMBERA?</span>
+            <p className='root__answer'>EMBERA - это</p>
           </li>
           <li>
-            <span className='tech__second__header'>Что такое АПИ?</span>
-            <p className='root__answer'>АПИ - это</p>
+            <span className='tech__second__header'>Что такое EMBERA?</span>
+            <p className='root__answer'>EMBERA - это</p>
           </li>
       </ul>
         
