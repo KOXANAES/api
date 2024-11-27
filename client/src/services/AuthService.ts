@@ -18,6 +18,11 @@ export default class AuthService {
   static async updateEmail(email:string, newEmail:string): Promise<AxiosResponse<AuthResponce>> { 
     return $api.post<AuthResponce>('/auth/updateEmail', {email, newEmail})
   }
+  static async changePassword(email:string, oldPassword:string, newPassword:string, confirmPassword:string): Promise<AxiosResponse<AuthResponce>> {
+    return $api.post<AuthResponce>('/auth/changePassword', {email, oldPassword, newPassword, confirmPassword})
+
+  }
+
   static async getUsers() {
     return $api.get('/auth/getUsers')
   }

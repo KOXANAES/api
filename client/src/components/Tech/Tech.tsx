@@ -3,7 +3,7 @@ import logo from '../../assets/images/fire.png';
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { NavLink } from 'react-router-dom';
-import { ABOUT_ROUTE, FAQ_ROUTE, SUPPORT_ROUTE } from '../../router/Consts';
+import { ABOUT_ROUTE, SUPPORT_ROUTE } from '../../router/Consts';
 
 const Tech: FC = () => { 
   return (
@@ -18,11 +18,6 @@ const Tech: FC = () => {
             className={({ isActive }) => isActive ? 'orange-btn techActive' : 'orange-btn'} 
             to={ABOUT_ROUTE}
           > О проекте
-          </NavLink>
-          <NavLink 
-            className={({ isActive }) => isActive ? 'orange-btn techActive' : 'orange-btn'} 
-            to={FAQ_ROUTE}
-          > Часто задаваемые вопросы
           </NavLink>
           <NavLink 
             className={({ isActive }) => isActive ? 'orange-btn techActive' : 'orange-btn'} 

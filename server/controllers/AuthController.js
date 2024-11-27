@@ -125,7 +125,19 @@ class AuthController {
       next(e)
     }
   }
-
+  async changePassword(req,res,next) { 
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) { 
+      return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
+    }
+    try { 
+      const {email, oldPassword, newPassword, confirmPassword} = req.body
+      await authService.changePassword(email, oldPassword, newPassword, confirmPassword)
+      return res.json({message:'Ваш пароль был успешно изменён'})
+    } catch(e) { 
+      next(e)
+    }
+  }
 }
 
 module.exports = new AuthController()

@@ -28,7 +28,6 @@ body { background-color: $dark_themeColor2;}
   --red: red;
 }
 
-
 @mixin app_btns_style($color) { 
   background-color: transparent;
   border: 1px solid $color;
@@ -77,14 +76,16 @@ body { background-color: $dark_themeColor2;}
   font-size: $defaultFontSize;
   background-color: transparent;
   border: 0;
-  color: var(--orange);
-  &:hover{color: var(--orangeSelected);}
-  &::placeholder {color: var(--orange); opacity: 0.7;}
+  color: $orange;
+  &:hover{color: $orangeSelected;}
+  &::placeholder {color: $orange; opacity: 0.7;}
   .my__select__option {
-    background-color: var(--themeColor1); 
-    color: inherit;
+    background-color: $dark_themeColor1; 
+    color: $orangeSelected;
+    background-color: red;
   }
 }
+
 .accent__orange { color: $orange}
 .tech_message {color: $green}
 .error_message {color: $red}

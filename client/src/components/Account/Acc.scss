@@ -22,6 +22,9 @@
 .acc__face__options {
   display: flex;
   flex-direction: column;
+  .acc_btns_active { 
+    background-color: $orange;
+  }
 }
 .acc__face__btns { 
   margin: 0 auto;

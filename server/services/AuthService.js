@@ -112,7 +112,7 @@ class AuthService {
     const isEmailInUse = await User.findOne({where:{email:newEmail}})
     if (isEmailInUse) throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
     const user = await User.findOne({where:{email:email}})
-    if(!user) {throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)}
+    if(!user) {throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} не существует`)}
     const activationLink = uuid.v4()
     try { 
       await mailService.sendActivationMail(email, `${process.env.API_URL}/auth/activate/${activationLink}`)
@@ -120,9 +120,33 @@ class AuthService {
       user.isActivated = false
       user.activationLink = activationLink
       await user.save()
-    } catch(e) {throw ApiError.BadRequest(`Не удаётся отправить сообщение на почту ${email}. Проверьте правильность введённых данных`)}
-  }
+    } catch(e) {
+      throw ApiError.BadRequest(`Не удаётся отправить сообщение на почту ${email}. Проверьте правильность введённых данных`)
+    } finally { 
+      return {user:user}
+    }
 
+  }
+  async changePassword(email, oldPassword, newPassword, confirmPassword) { 
+    const user = await User.findOne({where:{email:email}})
+    if(!user) {throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} не существует`)}
+    if(newPassword != confirmPassword) {throw ApiError.BadRequest('Новый и подтверждающий пароли не совпадают')}
+    const isPassEquals = await bcrypt.compare(oldPassword, user.password)
+    if(!isPassEquals) {throw ApiError.BadRequest('Текущий пароль введён неверно!')}
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 5)
+    user.password = newHashedPassword
+    await user.save()
+
+    const userDto = new UserDto(user)
+    const tokens = tokenService.generateTokens({...userDto})
+    await tokenService.saveToken(userDto.id, tokens.refreshToken)
+    return { 
+        ...tokens, 
+        user: userDto
+    }
+  }
+  
   async getUsers() { 
     const users = await User.findAll()
     return users

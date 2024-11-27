@@ -1,0 +1,17 @@
+@import './../About/About.scss';
+@import './../../../MainStyle.scss';
+#tech_header_username { 
+    color: $green;
+}
+#support_block { 
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $green;
+    padding: 15px;
+    background-color: $dark_themeColor1;
+}
+.message_input { 
+    display: block;
+    margin: 15px;
+    height: 100px;
+}

@@ -3,6 +3,8 @@ import { useContext, useState } from "react";
 import { Context } from "../../../main";
 
 import './LocalSettingsWindow.scss'
+import DefaultModal from "../../Modals/Modal/DefaultModal";
+import PswdChangeForm from "../../Forms/AuthForms/PswdChangeForm";
 
 const LocalSettingsWindow = () => { 
 
@@ -10,13 +12,14 @@ const LocalSettingsWindow = () => {
 
   const [changeNicknameBar, setChangeNicknameBar] = useState<boolean>(false)
   const [changeEmailBar, setChangeEmailBar] = useState<boolean>(false)
+
   const [newNickname, setNewNickname] = useState<string>('')
   const [newEmail, setNewEmail] = useState<string>('')
-
 
   const [nickErrorMessage, setNickErrorMessage] = useState<string | null>(null)
   const [emailErrorMessage, setEmailErrorMessage] = useState<string | null>(null)
 
+  const [pswdChModal, setPswdChModal] = useState<boolean>(false)
 
   const handleNewNickname = async() => { 
     const email = authStore.user.email
@@ -96,7 +99,7 @@ const LocalSettingsWindow = () => {
         </div>
       </div>
       <div className='acc__settings___option'>
-      <h4>Имя пользователя <button className='change-btn' onClick={() => setChangeEmailBar(!changeEmailBar)}>Изменить</button></h4>
+      <h4>Электронная почта <button className='change-btn' onClick={() => setChangeEmailBar(!changeEmailBar)}>Изменить</button></h4>
         <div className='acc__settings___option__info'>
           <div>{authStore.user.email}</div>
           {changeEmailBar && 
@@ -115,14 +118,15 @@ const LocalSettingsWindow = () => {
         </div>
       </div>
       <div className='acc__settings___option'>
-        <h4>Пароль <button className='change-btn'>Изменить</button></h4>
-        <p>*******</p>
+        <h4>Пароль<button className='change-btn' onClick={() => setPswdChModal(!pswdChModal)}>Изменить пароль</button></h4> 
       </div>
       <div className='acc__settings___option'>
         <h4>Уровень доступа</h4>
         <p>{authStore.user.isActivated ? `${authStore.user.role}` : `Аккаунт не активирован` }</p>
       </div>
-
+      <DefaultModal active={pswdChModal} setActive={setPswdChModal}>
+        <PswdChangeForm/>
+      </DefaultModal>
     </div>
   );
 };

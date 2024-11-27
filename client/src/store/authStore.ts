@@ -117,6 +117,13 @@ export default class AuthStore {
       throw e
     }
   }
+  async changePassword(email: string, oldPassword:string, newPassword:string, confirmPassword:string) { 
+    try { 
+      const response = await AuthService.changePassword(email, oldPassword, newPassword, confirmPassword)
+    } catch(e) {
+      throw e
+    }
+  }
 
   async getUsers() { 
     try { 
@@ -127,5 +134,7 @@ export default class AuthStore {
       throw(e)
     }
   }
+
+
 
 }

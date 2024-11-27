@@ -29,9 +29,24 @@ const Account: FC = () => {
           {authStore.user.nickname}
         </div>
         <div className='acc__face__options'>
-          <button onClick={() => showWindow('cards')} className='orange-btn'>В работе</button>
-          <button onClick={() => showWindow('stats')} className='orange-btn'>Статистика</button>
-          <button onClick={() => showWindow('settings')} className='orange-btn'>Настройки</button>
+        <button 
+          onClick={() => showWindow('cards')} 
+          className={`orange-btn ${activeWindow === 'cards' ? 'acc_btns_active' : ''}`}
+        > 
+          В работе
+        </button>
+        <button 
+          onClick={() => showWindow('stats')} 
+          className={`orange-btn ${activeWindow === 'stats' ? 'acc_btns_active' : ''}`}
+        >
+          Статистика
+        </button>
+        <button 
+          onClick={() => showWindow('settings')} 
+          className={`orange-btn ${activeWindow === 'settings' ? 'acc_btns_active' : ''}`}
+        >
+          Настройки
+        </button>
         </div>
       </div>
       <div className='acc__info'>

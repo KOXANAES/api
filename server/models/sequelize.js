@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize(
     "embera", 
     "postgres", 
-    "0000", {
+    "1111", {
     dialect: "postgres",
     host: "localhost",
     define: { 

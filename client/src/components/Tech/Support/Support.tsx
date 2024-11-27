@@ -22,7 +22,7 @@ const Support:FC = () => {
   }
 
   return(
-    <div>
+    <div className='tech__content' id='support_block'>
       <p>
         <span id='tech_header_username'>{authStore.user.nickname}</span>, если Вы обнаружили сбои в работе приложения, некорректные ответы сервисов, 
         или же у Вас есть предложения по улучшению и развитию проекта, свяжитеcь с технической поддержкой сайта. 

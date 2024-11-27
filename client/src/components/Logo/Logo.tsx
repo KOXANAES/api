@@ -13,7 +13,7 @@ const Logo:FC = ({}) => {
 
   const handleNavigate = async() => { 
     if(authStore.isAuth) { 
-      navigate('/tech')
+      navigate('/tech/about')
     }
   }
 

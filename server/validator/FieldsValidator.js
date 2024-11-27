@@ -139,6 +139,20 @@ class Validators {
       .withMessage('Почта не может быть пустой строкой!'),
     ]
   }
+  newPasswordValidator = () => { 
+    return [ 
+      body('oldPassword')
+        .notEmpty()
+        .withMessage('Укажите старый пароль!'),
+      body('newPassword')
+        .notEmpty()
+        .withMessage('Укажите новый пароль!'),
+      body('confirmPassword')
+        .notEmpty()
+        .withMessage('Укажите подтверждающий пароль!'),
+    ]
+  }
+
 }
 
 module.exports = new Validators()
